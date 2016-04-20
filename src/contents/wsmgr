@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pkill wsmgrd
+/opt/qlproxy/bin/wsmgrd
