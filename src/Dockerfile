@@ -39,7 +39,8 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
 RUN wget http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu14/qlproxy-${DDWS_VER}_amd64.deb && \
 	dpkg --install qlproxy-${DDWS_VER}_amd64.deb && \
 	rm -f qlproxy-${DDWS_VER}_amd64.deb && \
-	a2ensite qlproxy 
+	a2ensite qlproxy && \
+	mkdir -p /var/log/qlproxy
 
 # reinitialize squid
 RUN /usr/lib/squid3/ssl_crtd -c -s /var/spool/squid_ssldb && \
@@ -56,7 +57,8 @@ COPY contents/restart.sh /opt/qlproxy/bin/restart.sh
 COPY contents/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # reset owner of installation path
-RUN chown -R qlproxy:qlproxy /opt/qlproxy
+RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
+    chmod +x /opt/qlproxy/bin/*
 
 # and clear the image
 RUN rm -rf /var/lib/apt/lists/*

@@ -7,6 +7,9 @@ MAX_ATTEMPTS=5
 
 $SQUID_PATH -k shutdown
 
+# squid needs time to stop
+sleep 15
+
 attempt=1
 
 until [[ "$attempt" -gt "$MAX_ATTEMPTS" ]]
