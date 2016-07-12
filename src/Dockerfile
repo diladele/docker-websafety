@@ -25,15 +25,30 @@ RUN apt-get update && apt-get install -y \
 # install django
 RUN easy_install django==1.6.11
 
-# add repo for new squid
-RUN echo "deb http://ubuntu.diladele.com/ubuntu/ trusty main" > /etc/apt/sources.list.d/ubuntu.diladele.com.list
+# the latest squid 3.5 exists for unknown reasons after start, so we will rebuild squid 3.3.8 from ubuntu
+COPY rules.patch .
+COPY gadgets.cc.sha256.patch .
+COPY gadgets.cc.firefox.patch .
 
-# install squid
-RUN apt-get update && apt-get install -y --allow-unauthenticated \
-	libecap3 \
-	squid-common \
-	squid \
-	squidclient
+# do the build
+RUN apt-get install -y \
+	devscripts \
+	build-essential \
+	fakeroot \
+	libssl-dev && \
+	apt-get source squid3 && apt-get -y build-dep squid3 && \
+	patch squid3-3.3.8/debian/rules < rules.patch && \
+	patch squid3-3.3.8/src/ssl/gadgets.cc < gadgets.cc.sha256.patch && \
+	patch squid3-3.3.8/src/ssl/gadgets.cc < gadgets.cc.firefox.patch && \
+	cd squid3-3.3.8 && dpkg-buildpackage -rfakeroot -b
+
+# and install it
+RUN apt-get -y install \
+	ssl-cert \
+	squid-langpack && \
+	dpkg --install squid3-common_3.3.8-1ubuntu6.*_all.deb && \
+	dpkg --install squid3_3.3.8-1ubuntu6.*_amd64.deb && \
+	dpkg --install squidclient_3.3.8-1ubuntu6.*_amd64.deb
 
 # get latest web safety and install it
 RUN wget http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu14/qlproxy-${DDWS_VER}_amd64.deb && \
@@ -48,7 +63,6 @@ RUN /usr/lib/squid3/ssl_crtd -c -s /var/spool/squid_ssldb && \
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
-COPY contents/settings.ubuntu14.json /opt/qlproxy/etc/settings.ubuntu14.json
 COPY contents/qlproxy /opt/qlproxy/bin/start_qlproxy
 COPY contents/wsmgr /opt/qlproxy/bin/start_wsmgr
 COPY contents/squid /opt/qlproxy/bin/start_squid
@@ -65,8 +79,8 @@ RUN rm -rf /var/lib/apt/lists/*
 
 # assign volumes
 VOLUME ["/opt/qlproxy/etc"]
-VOLUME ["/etc/squid"]
-VOLUME ["/var/spool/squid"]
+VOLUME ["/etc/squid3"]
+VOLUME ["/var/spool/squid3"]
 
 EXPOSE 80 3128
 

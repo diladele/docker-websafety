@@ -7,7 +7,7 @@
 #       !0 - on various errors
 #
 
-SQUID_NAME=squid
+SQUID_NAME=squid3
 SQUID_PATH=/usr/sbin/$SQUID_NAME
 
 echo "Reloading Diladele Web Safety ICAP Daemon..."

@@ -1,9 +1,0 @@
-{
-	"squid_user": "proxy",
-	"squid_exe_path":"/usr/sbin/squid",
-	"squid_conf_path":"/etc/squid/squid.conf",
-	"sslcrtd_exe_path":"/usr/lib/squid/ssl_crtd",
-	"squid_daemon_name":"squid",
-	"sslcrtd_dir_path":"/var/spool/squid_ssldb",
-	"openssl_exe_path":"/usr/bin/openssl"
-}

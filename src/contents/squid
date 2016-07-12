@@ -1,8 +1,8 @@
 #!/bin/bash
 
-SQUID_NAME=squid
+SQUID_NAME=squid3
 SQUID_PATH=/usr/sbin/$SQUID_NAME
-SQUID_CONF=/etc/squid/squid.conf
+SQUID_CONF=/etc/squid3/squid.conf
 MAX_ATTEMPTS=5
 
 $SQUID_PATH -k shutdown
