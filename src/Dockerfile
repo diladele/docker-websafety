@@ -63,7 +63,6 @@ RUN /usr/lib/squid3/ssl_crtd -c -s /var/spool/squid_ssldb && \
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
-COPY contents/settings.ubuntu14.json /opt/qlproxy/etc/settings.ubuntu14.json
 COPY contents/qlproxy /opt/qlproxy/bin/start_qlproxy
 COPY contents/wsmgr /opt/qlproxy/bin/start_wsmgr
 COPY contents/squid /opt/qlproxy/bin/start_squid
@@ -80,8 +79,8 @@ RUN rm -rf /var/lib/apt/lists/*
 
 # assign volumes
 VOLUME ["/opt/qlproxy/etc"]
-VOLUME ["/etc/squid"]
-VOLUME ["/var/spool/squid"]
+VOLUME ["/etc/squid3"]
+VOLUME ["/var/spool/squid3"]
 
 EXPOSE 80 3128
 
