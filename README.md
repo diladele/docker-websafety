@@ -10,7 +10,7 @@ Unmodified
 
 Modifications include:
 
-- Moved to use phusion/baseimage for the docker container
+- Moved to use phusion/baseimage for the docker container - remains on Ubuntu 14.04
 - Moved to use runit rather than supervisor
 
 
