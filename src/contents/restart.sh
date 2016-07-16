@@ -1,21 +1,21 @@
 #!/bin/bash
 #
-# Restarts Diladele Web Safety and Squid Proxy, usually called by the Web UI
+# Reloads Diladele Web Safety and Squid Proxy, usually called by the Web UI
 #
 # returns:
-#       0 - on success
-#      !0 - on various errors
+#        0 - on success
+#       !0 - on various errors
 #
 
-echo "Restarting Diladele Web Safety and Squid..."
-supervisorctl restart qlproxy squid wsmgr
-res=$?
-if [ $res -ne 0 ]; then
-    echo "Cannot restart, error $res"
-    exit 1
-fi
+echo "Reloading Diladele Web Safety ICAP Daemon..."
+sv restart qlproxy
 
+echo "Reloading Diladele Web Safety Monitoring Daemon..."
+sv restart wsmgr
+
+echo "Reloading Squid Proxy Server..."
+sv restart squid
 
 # dump success
-echo "Restart successful!"
+echo "Reload successful!"
 exit 0

@@ -1,42 +1,19 @@
 #!/bin/bash
 
+# let qlproxy and wsmgr start before squid - exit script until they're running
+qlpstatus=`sv status qlproxy |cut -d ' ' -f 1`
+wsmgrstatus=`sv status wsmgr |cut -d ' ' -f 1`
+
+if [[ "$qlpstatus" != "run:" ]]
+then exit 1
+fi
+if [[ "$wsmgrstatus" != "run:" ]]
+then exit 1
+fi
+
 SQUID_NAME=squid3
 SQUID_PATH=/usr/sbin/$SQUID_NAME
 SQUID_CONF=/etc/squid3/squid.conf
-MAX_ATTEMPTS=5
 
-$SQUID_PATH -k shutdown
-
-# squid needs time to stop
-sleep 15
-
-attempt=1
-
-until [[ "$attempt" -gt "$MAX_ATTEMPTS" ]]
-do
-    printf "Waiting for qlproxy."
-    pid=$(pidof qlproxyd)
-
-    if [[ "$pid" -ne "" ]]; then
-        break
-    fi
-    ((attempt++))
-
-    sleep 1 
-    printf "."
-done
-printf "\n"
- 
-if [[ "$attempt" -lt "$MAX_ATTEMPTS" ]]; then 
-    echo "Initializing squid..." 
-    $SQUID_PATH -z -YC -f $SQUID_CONF 
-    echo "Squid initialized" 
- 
-    echo "Starting squid" 
-    ulimit -n 65535 
-    $SQUID_PATH -N -YC -f $SQUID_CONF 
-    echo "Squid started" 
-else 
-    echo "Neither qlproxy nor squid was started" 
-    exit 1 
-fi 
+ulimit -n 65535 
+$SQUID_PATH -N -YC -f $SQUID_CONF 

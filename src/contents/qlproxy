@@ -1,6 +1,2 @@
 #!/bin/bash
-
-pkill qlproxyd
-
-sed -i "s|TIME_ZONE = 'Europe/Amsterdam'|TIME_ZONE='$TZ'|" /opt/qlproxy/var/console/console/settings.py
-/opt/qlproxy/bin/qlproxyd --nodaemon
+exec /opt/qlproxy/bin/qlproxyd --nodaemon
