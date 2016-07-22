@@ -17,7 +17,9 @@ The following remains unmodified
  - Squid 3.5.19 - compiled for Ubuntu 14.04 by Diladele
  - SQLite only in this image
   
-  
+Important - currently /opt/qlproxy/bin is setuid to run as the correct user  
+This might mean changes to instructions such as these http://docs.diladele.com/administrator_guide_4_5/traffic_monitoring/database/create.html  
+
 
 Details / Running changes
 -------
