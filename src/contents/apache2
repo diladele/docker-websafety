@@ -14,5 +14,5 @@ if [[ "$squidstatus" != "run:" ]]
 then exit 1
 fi
 
-/bin/bash -c "source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND"
+source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND
 

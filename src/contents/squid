@@ -16,4 +16,4 @@ SQUID_PATH=/usr/sbin/$SQUID_NAME
 SQUID_CONF=/etc/squid3/squid.conf
 
 ulimit -n 65535 
-$SQUID_PATH -N -YC -f $SQUID_CONF 
+exec $SQUID_PATH -N -YC -f $SQUID_CONF 

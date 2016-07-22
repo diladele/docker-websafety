@@ -14,7 +14,7 @@ echo "Reloading Diladele Web Safety Monitoring Daemon..."
 sv restart wsmgr
 
 echo "Reloading Squid Proxy Server..."
-sv restart squid
+sv -w 15 restart squid
 
 # dump success
 echo "Reload successful!"
