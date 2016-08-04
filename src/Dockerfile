@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
 	libapache2-mod-wsgi \
 	python-ldap	\
 	python-setuptools \
+        python-mysqldb \
 	sqlite && \
         a2dissite 000-default
 
