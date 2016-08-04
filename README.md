@@ -64,3 +64,10 @@ Start again with
     docker start websafety
 
 
+TODO List
+--------
+ - volumes: sort out log areas and spool areas - cron update looks like it fails until file is touched
+ - mysql: script doesn't detect mysql in another container - but does upload fine - sharing pid namespace with host works though...
+ - mysql: generate an initial image configured with mysql
+ - image: can we copy squid cert / settings / license in during the dockerfile build - then container ends up stateless
+ - coreos + systemd unit files... 
