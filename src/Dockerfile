@@ -3,7 +3,7 @@
 #
 FROM phusion/baseimage:0.9.15
 
-MAINTAINER junk@nospam.net
+MAINTAINER support@diladele.com
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -54,6 +54,7 @@ COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
 COPY contents/reload.sh /opt/qlproxy/bin/reload.sh
 COPY contents/restart.sh /opt/qlproxy/bin/restart.sh
+COPY contents/system.json /opt/qlproxy/etc/system.json
 
 # reset owner of installation path
 RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
