@@ -1,9 +1,9 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM ubuntu:trusty
+FROM phusion/baseimage:0.9.15
 
-MAINTAINER support@diladele.com
+MAINTAINER junk@nospam.net
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -14,75 +14,65 @@ ENV DDWS_VER 4.5.0.7470
 RUN apt-get update && apt-get install -y \	
 	apache2 \
 	libapache2-mod-wsgi \
-	mc \
 	python-ldap	\
 	python-setuptools \
-	sqlite \
-	supervisor \
-	wget && \
-	a2dissite 000-default
+        python-mysqldb \
+	sqlite && \
+        a2dissite 000-default
 
 # install django
 RUN easy_install django==1.6.11
 
-# the latest squid 3.5 exists for unknown reasons after start, so we will rebuild squid 3.3.8 from ubuntu
-COPY rules.patch .
-COPY gadgets.cc.sha256.patch .
-COPY gadgets.cc.firefox.patch .
+# add repo for new squid
+RUN echo "deb http://ubuntu.diladele.com/ubuntu/ trusty main" > /etc/apt/sources.list.d/ubuntu.diladele.com.list
 
-# do the build
-RUN apt-get install -y \
-	devscripts \
-	build-essential \
-	fakeroot \
-	libssl-dev && \
-	apt-get source squid3 && apt-get -y build-dep squid3 && \
-	patch squid3-3.3.8/debian/rules < rules.patch && \
-	patch squid3-3.3.8/src/ssl/gadgets.cc < gadgets.cc.sha256.patch && \
-	patch squid3-3.3.8/src/ssl/gadgets.cc < gadgets.cc.firefox.patch && \
-	cd squid3-3.3.8 && dpkg-buildpackage -rfakeroot -b
-
-# and install it
-RUN apt-get -y install \
-	ssl-cert \
-	squid-langpack && \
-	dpkg --install squid3-common_3.3.8-1ubuntu6.*_all.deb && \
-	dpkg --install squid3_3.3.8-1ubuntu6.*_amd64.deb && \
-	dpkg --install squidclient_3.3.8-1ubuntu6.*_amd64.deb
+# install squid
+RUN apt-get update && apt-get install -y --allow-unauthenticated \
+        libecap3 \
+        squid-common \
+        squid \
+        squidclient
 
 # get latest web safety and install it
-RUN wget http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu14/qlproxy-${DDWS_VER}_amd64.deb && \
+RUN curl http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu14/qlproxy-${DDWS_VER}_amd64.deb -o qlproxy-${DDWS_VER}_amd64.deb  && \
 	dpkg --install qlproxy-${DDWS_VER}_amd64.deb && \
 	rm -f qlproxy-${DDWS_VER}_amd64.deb && \
 	a2ensite qlproxy && \
 	mkdir -p /var/log/qlproxy
 
 # reinitialize squid
-RUN /usr/lib/squid3/ssl_crtd -c -s /var/spool/squid_ssldb && \
+RUN /usr/lib/squid/ssl_crtd -c -s /var/spool/squid_ssldb && \
 	chown -R proxy:proxy /var/spool/squid_ssldb
 
+# make runit service directories
+RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/qlproxy /etc/service/wsmgr
 # copy required files
-COPY contents/squid.conf /etc/squid/squid.conf
-COPY contents/qlproxy /opt/qlproxy/bin/start_qlproxy
-COPY contents/wsmgr /opt/qlproxy/bin/start_wsmgr
-COPY contents/squid /opt/qlproxy/bin/start_squid
+COPY contents/squid.conf /etc/squid3/squid.conf
+COPY contents/qlproxy /etc/service/qlproxy/run
+COPY contents/wsmgr /etc/service/wsmgr/run
+COPY contents/squid /etc/service/squid/run
+COPY contents/apache2 /etc/service/apache2/run
 COPY contents/reload.sh /opt/qlproxy/bin/reload.sh
 COPY contents/restart.sh /opt/qlproxy/bin/restart.sh
-COPY contents/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # reset owner of installation path
 RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
-    chmod +x /opt/qlproxy/bin/*
+    chmod +x /opt/qlproxy/bin/* && \
+    chmod u+s /opt/qlproxy/bin/* && \
+    chmod +x /etc/service/squid/run \
+		/etc/service/wsmgr/run \
+		/etc/service/qlproxy/run \
+		/etc/service/apache2/run
 
 # and clear the image
 RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/run/squid.pid /var/run/apache2/apache2.pid
 
 # assign volumes
 VOLUME ["/opt/qlproxy/etc"]
-VOLUME ["/etc/squid3"]
-VOLUME ["/var/spool/squid3"]
+VOLUME ["/etc/squid"]
+VOLUME ["/var/spool/squid"]
 
-EXPOSE 80 3128
-
-# and run supervisor
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+EXPOSE 80/tcp 
+EXPOSE 3128/tcp
+CMD ["/sbin/my_init"]
