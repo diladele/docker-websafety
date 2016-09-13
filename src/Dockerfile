@@ -44,6 +44,9 @@ RUN curl http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu14
 RUN /usr/lib/squid/ssl_crtd -c -s /var/spool/squid_ssldb && \
 	chown -R proxy:proxy /var/spool/squid_ssldb
 
+# too many hardlinks in phusion-basimage for crontab
+RUN touch /etc/crontab
+
 # make runit service directories
 RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/qlproxy /etc/service/wsmgr
 # copy required files
