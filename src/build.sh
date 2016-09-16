@@ -1,4 +1,4 @@
-docker rm -f websafety
-docker rmi -f websafety
-docker build --force-rm --no-cache --rm=true -t websafety .
-docker build -t websafety .
+docker rm -f websafety-config websafety-root
+docker rmi -f websafety-root
+docker build --force-rm --no-cache --rm=true -t websafety-root .
+docker build -t websafety-root .

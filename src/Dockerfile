@@ -3,7 +3,7 @@
 #
 FROM phusion/baseimage:0.9.15
 
-MAINTAINER support@diladele.com
+MAINTAINER junk@nospam.net
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -40,12 +40,12 @@ RUN curl http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu14
 	a2ensite qlproxy && \
 	mkdir -p /var/log/qlproxy
 
-# reinitialize squid
-RUN /usr/lib/squid/ssl_crtd -c -s /var/spool/squid_ssldb && \
-	chown -R proxy:proxy /var/spool/squid_ssldb
-
 # too many hardlinks in phusion-basimage for crontab
 RUN touch /etc/crontab
+
+# reinitialize squid
+#RUN /usr/lib/squid/ssl_crtd -c -s /var/spool/squid_ssldb && \
+#	chown -R proxy:proxy /var/spool/squid_ssldb
 
 # make runit service directories
 RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/qlproxy /etc/service/wsmgr
@@ -63,10 +63,11 @@ COPY contents/system.json /opt/qlproxy/etc/system.json
 RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
     chmod +x /opt/qlproxy/bin/* && \
     chmod u+s /opt/qlproxy/bin/* && \
+    chmod 755 /opt/qlproxy/bin/certmgr && \
     chmod +x /etc/service/squid/run \
 		/etc/service/wsmgr/run \
 		/etc/service/qlproxy/run \
-		/etc/service/apache2/run
+		/etc/service/apache2/run 
 
 # and clear the image
 RUN rm -rf /var/lib/apt/lists/*
@@ -75,8 +76,6 @@ RUN rm -rf /var/run/squid.pid /var/run/apache2/apache2.pid
 # assign volumes
 VOLUME ["/opt/qlproxy/etc"]
 VOLUME ["/etc/squid"]
-VOLUME ["/var/spool/squid"]
+VOLUME ["/var/spool"]
 
-EXPOSE 80/tcp 
-EXPOSE 3128/tcp
 CMD ["/sbin/my_init"]
