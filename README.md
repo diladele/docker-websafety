@@ -1,12 +1,12 @@
-Diladele Web Safety 4.5 in Docker with Squid 3.15.19 
+Diladele Web Safety 4.5 in Docker with Squid 3.15.19
 =============================================
 
-This project is a fork of https://github.com/diladele/docker-websafety  Web Safety ICAP web filter running in a docker container. 
+This project is a fork of https://github.com/diladele/docker-websafety  Web Safety ICAP web filter running in a docker container.
 
 Modifications
 -------------
 
-The fork makes the following modifications to run the latest Squid version 
+The fork makes the following modifications to run the latest Squid version
 
  - Moved to use phusion/baseimage 0.9.15 for the docker container - remains on Ubuntu 14.04
  - Moved to use runit rather than supervisor
@@ -16,9 +16,9 @@ The following remains unmodified
  - Diladele Websafety 4.5 - direct from Diladele website
  - Squid 3.5.19 - compiled for Ubuntu 14.04 by Diladele
  - SQLite only in this image
-  
-Important - currently /opt/qlproxy/bin is setuid to run as the correct user  
-This might mean changes to instructions such as these http://docs.diladele.com/administrator_guide_4_5/traffic_monitoring/database/create.html  
+
+Important - currently /opt/qlproxy/bin is setuid to run as the correct user
+This might mean changes to instructions such as these http://docs.diladele.com/administrator_guide_4_5/traffic_monitoring/database/create.html
 
 
 Details / Running changes
@@ -35,7 +35,7 @@ Squid has some additional controls to ensure that the diladele processes are sta
 		    then exit 1
 	    fi
 
-This is a refinement to the suggestion here http://smarden.org/runit/faq.html#depends 
+This is a refinement to the suggestion here http://smarden.org/runit/faq.html#depends
 
 apache2 is similarly delayed to start after squid has started.
 
@@ -45,29 +45,27 @@ Note, that in the diladele restart script, a pause is used for squid which can t
     echo "Reloading Squid Proxy Server..."
     sv -w 15 restart squid
 
+The latest modifications use a config container as described here : http://container-solutions.com/understanding-volumes-docker/ 
+
+
 Use
 ---
 After cloning the project, build with
 
     ./build.sh
 
-Run with 
+Run with
 
     ./run.sh
 
-Stop with 
+Stop with
 
-    docker stop websafety
+    docker stop websafety-runtime
 
 Start again with
 
-    docker start websafety
+    docker start websafety-runtime
 
+TODO:
+Some instructions for getting running with mysql in a separate container
 
-TODO List
---------
- - volumes: sort out log areas and spool areas - cron update looks like it fails until file is touched
- - mysql: script doesn't detect mysql in another container - but does upload fine - sharing pid namespace with host works though...
- - mysql: generate an initial image configured with mysql
- - image: can we copy squid cert / settings / license in during the dockerfile build - then container ends up stateless
- - coreos + systemd unit files... 

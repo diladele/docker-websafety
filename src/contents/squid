@@ -16,7 +16,7 @@ SQUID_PATH=/usr/sbin/$SQUID_NAME
 SQUID_CONF=/etc/squid3/squid.conf
 SQUID_PID=/var/run/squid.pid                                                                                                                                                            ✹
 
-[[ -f "$file" ]] && rm -f "$file"
+[[ -f "$SQUID_PID" ]] && rm -f "$SQUID_PID"
 
 ulimit -n 65535 
 exec $SQUID_PATH -N -YC -f $SQUID_CONF 
