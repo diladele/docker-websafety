@@ -1,4 +1,3 @@
-docker rm -f websafety-config websafety-root
-docker rmi -f websafety-root
-docker build --force-rm --no-cache --rm=true -t websafety-root .
-docker build -t websafety-root .
+docker rm -f websafety-config websafety-runtime
+docker rmi -f diladele/websafety:4.7-beta
+docker build --force-rm --no-cache --rm=true -t diladele/websafety:4.7-beta .
