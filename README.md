@@ -53,3 +53,7 @@ References
 ---
 * For an image with the standalone Web Safety please visit [Diladele Web Safety Docker Cluster](https://github.com/diladele/docker-cluster)
 * For Squid on Windows installer please click [here](https://github.com/diladele/squid3-windows)
+
+Contributors
+---
+Our big thanks go to Ian Bashford for his invaluable contributions!
