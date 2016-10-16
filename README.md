@@ -18,11 +18,11 @@ The Squid is listening on port 3128.
 
 To stop the image, please run:
 
-    ```docker stop websafety```
+    docker stop websafety
 
 To start the image again, please run:
 
-    ```docker start websafety```
+    docker start websafety
 
 Full tutorial can be found here.
 
@@ -31,19 +31,19 @@ Building and running the image on your machine
 Please install docker from www.docker.com.
 After cloning the project, build it with
 
-    ```./build.sh```
+    ./build.sh
 
 Run with
 
-    ```./run.sh```
+    ./run.sh
 
 Stop with
 
-    ```docker stop websafety```
+    docker stop websafety
 
 Start again with
 
-    ```docker start websafety```
+    docker start websafety
 
 
 Licensing
