@@ -10,7 +10,7 @@ Please install docker from www.docker.com.
 In order to run the product please execute the following commands:
     
     docker run -it --name websafety-config diladele/websafety:4.7-beta /usr/local/bin/firstrun.sh
-    docker run -d --name websafety-runtime --volumes-from websafety-config -p 8000:80 -p 3128:3128 -t diladele/websafety:4.7-beta
+    docker run -d --name websafety --volumes-from websafety-config -p 8000:80 -p 3128:3128 -t diladele/websafety:4.7-beta
 
 After executing these commands, you can connect to the Web UI typing [http://localhost:8000](http://localhost:8000) in your browser.
 
@@ -18,11 +18,11 @@ The Squid is listening on port 3128.
 
 To stop the image, please run:
 
-    docker stop websafety-runtime
+    docker stop websafety
 
 To start the image again, please run:
 
-    docker start websafety-runtime
+    docker start websafety
 
 Full tutorial can be found here.
 
@@ -39,11 +39,11 @@ Run with
 
 Stop with
 
-    docker stop websafety-runtime
+    docker stop websafety
 
 Start again with
 
-    docker start websafety-runtime
+    docker start websafety
 
 
 Licensing
