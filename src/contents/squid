@@ -11,9 +11,9 @@ if [[ "$wsmgrstatus" != "run:" ]]
 then exit 1
 fi
 
-SQUID_NAME=squid3
+SQUID_NAME=squid
 SQUID_PATH=/usr/sbin/$SQUID_NAME
-SQUID_CONF=/etc/squid3/squid.conf
+SQUID_CONF=/etc/squid/squid.conf
 SQUID_PID=/var/run/squid.pid                                                                                                                                                            ✹
 
 [[ -f "$SQUID_PID" ]] && rm -f "$SQUID_PID"

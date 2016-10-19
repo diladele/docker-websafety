@@ -50,7 +50,7 @@ RUN touch /etc/crontab
 RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/qlproxy /etc/service/wsmgr
 
 # copy required files
-COPY contents/squid.conf /etc/squid3/squid.conf
+COPY contents/squid.conf /etc/squid/squid.conf
 COPY contents/qlproxy /etc/service/qlproxy/run
 COPY contents/wsmgr /etc/service/wsmgr/run
 COPY contents/squid /etc/service/squid/run
