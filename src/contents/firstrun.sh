@@ -1,5 +1,9 @@
 #!/bin/bash
+set =e
 /opt/qlproxy/bin/certmgr -action="regenerate-certificate-storage"
+if ! [[ -z "$TIME_ZONE" ]]; then
+    sed -i "s:TIME_ZONE = '.*':TIME_ZONE='$TIME_ZONE':" /opt/qlproxy/var/console/console/settings.py
+fi
 cd /opt/qlproxy/var/spool
 mv adblock adblock.a && mv adblock.a adblock
 mv adult adult.a && mv adult.a adult

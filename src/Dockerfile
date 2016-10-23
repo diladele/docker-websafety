@@ -33,7 +33,7 @@ RUN echo "deb http://ubuntu16.diladele.com/ubuntu/ xenial main" > /etc/apt/sourc
             squid-common \
             squid \
             squidclient && \
-    rm -rf /var/run/squid.pid && \ 
+    rm -rf /var/run/squid.pid && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # get latest web safety and install it
@@ -75,6 +75,7 @@ RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
 # assign volumes
 VOLUME ["/opt/qlproxy/etc"]
 VOLUME ["/opt/qlproxy/var/spool"]
+VOLUME ["/opt/qlproxy/var/console/console"]
 VOLUME ["/opt/qlproxy/var/db"]
 VOLUME ["/opt/qlproxy/var/log"]
 VOLUME ["/opt/qlproxy/var/reports"]
