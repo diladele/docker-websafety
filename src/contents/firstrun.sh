@@ -1,5 +1,5 @@
 #!/bin/bash
-set =e
+set -e
 /opt/qlproxy/bin/certmgr -action="regenerate-certificate-storage"
 if ! [[ -z "$TIME_ZONE" ]]; then
     sed -i "s:TIME_ZONE = '.*':TIME_ZONE='$TIME_ZONE':" /opt/qlproxy/var/console/console/settings.py
