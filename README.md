@@ -22,19 +22,19 @@ After executing these commands, you can connect to the Web UI typing [http://loc
 
 The Squid is listening on port 3128. 
 
-To stop the image, please run:
+To stop the container, please run:
 
     docker stop websafety
 
-To start the image again, please run:
+To start the container again, please run:
 
     docker start websafety
 
-Full tutorial can be found [here](https://docs.diladele.com/docker/docker_windows_10/index.html).
+The full tutorial can be found [here](https://docs.diladele.com/docker/docker_windows_10/index.html).
 
 #Removing existing images and containers
 
-In order to remove previous version of websafety, please perform the following steps:
+In order to remove the previous version of websafety, please perform the following steps:
   * stop running container with the following command:
 ```
     docker stop websafety
@@ -50,7 +50,7 @@ In order to remove previous version of websafety, please perform the following s
 ```
     docker rmi diladele/websafety
 ```
-See how you can [install new version](#Running-the-image-from-Docker-Hub).
+See how you can [install the new version](#Running-the-image-from-Docker-Hub).
 
 #Building the image on your machine
 
