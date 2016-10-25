@@ -11,7 +11,7 @@ It supports all major Linux distributions (Ubuntu, RedHat, Debian, CentOS), Free
 
 Please install docker from www.docker.com.
 
-If you had the image already deployed please see how you can [clean before updating to the newest version](#Removing existing images and containers).
+If you had the image already deployed please see how you can [clean before updating to the newest version](#Removing-existing-images-and-containers).
 
 In order to run the product please execute the following commands:
 ```
@@ -30,7 +30,7 @@ To start the image again, please run:
 
     docker start websafety
 
-Full tutorial can be found here.
+Full tutorial can be found [here](https://docs.diladele.com/docker/docker_windows_10/index.html).
 
 #Removing existing images and containers
 
@@ -50,15 +50,16 @@ In order to remove previous version of websafety, please perform the following s
 ```
     docker rmi diladele/websafety
 ```
+See how you can [install new version](#Running-the-image-from-Docker-Hub).
 
-#Building and running the image on your machine
+#Building the image on your machine
 
 Please install docker from www.docker.com.
 After cloning the project, build it with
 
     ./build.sh
 
-Run with
+Run the container with
 
     ./run.sh
 
