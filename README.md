@@ -16,7 +16,7 @@ If you had the image already deployed please see how you can [clean before updat
 In order to run the product please execute the following commands:
 ```
     docker run -it --name websafety-config diladele/websafety /usr/local/bin/firstrun.sh
-    docker run -d --name websafety --volumes-from websafety-config -p 8000:80 -p 3128:3128 -t diladele/websafety
+    docker run -dt --name websafety --dns=8.8.8.8 --volumes-from websafety-config -p 8000:80 -p 3128:3128 diladele/websafety
 ```
 After executing these commands, you can connect to the Web UI typing [http://localhost:8000](http://localhost:8000) in your browser.
 
