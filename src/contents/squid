@@ -21,4 +21,4 @@ VAR_SQUID_PID=/var/run/squid.pid                                                
 [[ -f "$VAR_SQUID_PID" ]] && rm -f "$VAR_SQUID_PID"
 
 ulimit -n 65535
-exec $SQUID_PATH -N -YC
+exec $SQUID_PATH -N -YC -f $SQUID_CONF
