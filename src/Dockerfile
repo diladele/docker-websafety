@@ -50,7 +50,7 @@ RUN touch /etc/crontab
 RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/qlproxy /etc/service/wsmgr
 
 # copy required files
-COPY contents/qlproxy /etc/service/qlproxy/run
+COPY contents/wsicap /etc/service/wsicap/run
 COPY contents/wsmgr /etc/service/wsmgr/run
 COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
@@ -68,7 +68,7 @@ RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
     chmod 755 /opt/qlproxy/bin/certmgr && \
     chmod +x /etc/service/squid/run \
 		/etc/service/wsmgr/run \
-		/etc/service/qlproxy/run \
+		/etc/service/wsicap/run \
 		/etc/service/apache2/run
 
 # assign volumes
