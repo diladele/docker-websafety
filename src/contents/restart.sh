@@ -8,7 +8,7 @@
 #
 
 echo "Reloading Diladele Web Safety ICAP Daemon..."
-sv restart qlproxy
+sv restart wsicap
 
 echo "Reloading Diladele Web Safety Monitoring Daemon..."
 sv restart wsmgr
