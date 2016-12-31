@@ -1,2 +1,0 @@
-#!/bin/bash
-exec /opt/qlproxy/bin/qlproxyd --nodaemon

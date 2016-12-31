@@ -1,10 +1,10 @@
 #!/bin/bash
 
-qlpstatus=`sv status qlproxy |cut -d ' ' -f 1`
+wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
 wsmgrstatus=`sv status wsmgr |cut -d ' ' -f 1`
 squidstatus=`sv status squid |cut -d ' ' -f 1`
 
-if [[ "$qlpstatus" != "run:" ]]
+if [[ "$wsicapstatus" != "run:" ]]
 then exit 1
 fi
 if [[ "$wsmgrstatus" != "run:" ]]

@@ -8,7 +8,7 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 4.7.0.2AAA
+ENV DDWS_VER 4.8.0.935B
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
@@ -51,7 +51,7 @@ RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/qlproxy /etc/serv
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
-COPY contents/qlproxy /etc/service/qlproxy/run
+COPY contents/wsicap /etc/service/wsicap/run
 COPY contents/wsmgr /etc/service/wsmgr/run
 COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
@@ -69,7 +69,7 @@ RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
     chmod 755 /opt/qlproxy/bin/certmgr && \
     chmod +x /etc/service/squid/run \
 		/etc/service/wsmgr/run \
-		/etc/service/qlproxy/run \
+		/etc/service/wsicap/run \
 		/etc/service/apache2/run
 
 # assign volumes

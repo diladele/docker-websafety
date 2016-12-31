@@ -1,4 +1,6 @@
 {
+	"websafety_user" : "qlproxy",
+	"websafety_group" : "qlproxy",
 	"squid_user": "proxy",
 	"squid_exe_path":"/usr/sbin/squid",
 	"squid_conf_path":"/etc/squid/squid.conf",
@@ -8,5 +10,8 @@
 	"sslcrtd_dir_path":"/var/spool/squid_ssldb",
 	"openssl_exe_path":"/usr/bin/openssl",
 	"use_peek_n_splice" : true,
-	"sudo_path" : "/usr/bin/sudo"
+	"sudo_path" : "/usr/bin/sudo",
+	"auth_exe_wrapper" : "/usr/lib/squid/negotiate_wrapper_auth",
+	"krb5_exe_helper"  : "/usr/lib/squid/negotiate_kerberos_auth",
+	"ldap_exe_helper"  : "/usr/lib/squid/basic_ldap_auth"
 }

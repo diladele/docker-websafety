@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # let qlproxy and wsmgr start before squid - exit script until they're running
-qlpstatus=`sv status qlproxy |cut -d ' ' -f 1`
+wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
 wsmgrstatus=`sv status wsmgr |cut -d ' ' -f 1`
 
-if [[ "$qlpstatus" != "run:" ]]
+if [[ "$wsicapstatus" != "run:" ]]
 then exit 1
 fi
 if [[ "$wsmgrstatus" != "run:" ]]
@@ -14,9 +14,11 @@ fi
 SQUID_NAME=squid
 SQUID_PATH=/usr/sbin/$SQUID_NAME
 SQUID_CONF=/etc/squid/squid.conf
-SQUID_PID=/run/squid.pid                                                                                                                                                            ✹
+SQUID_PID=/run/squid.pid
+VAR_SQUID_PID=/var/run/squid.pid
 
 [[ -f "$SQUID_PID" ]] && rm -f "$SQUID_PID"
+[[ -f "$VAR_SQUID_PID" ]] && rm -f "$VAR_SQUID_PID"
 
 ulimit -n 65535
 exec $SQUID_PATH -N -YC -f $SQUID_CONF
