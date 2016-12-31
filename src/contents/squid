@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # let qlproxy and wsmgr start before squid - exit script until they're running
 wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
