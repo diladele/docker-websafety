@@ -8,7 +8,7 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 4.8.0.935B
+ENV DDWS_VER 4.9.0.19B2
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
@@ -16,6 +16,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
             libapache2-mod-wsgi \
             python-ldap	\
             sudo \
+#            python-dev \
+#            libjpeg-dev \
+#            zlib1g-dev \
+            python-reportlab \
+            krb5-user \
             sqlite && \
     a2dissite 000-default && \
     curl http://packages.diladele.com/diladele_pub.asc -o diladele_pub.asc && apt-key add diladele_pub.asc && rm diladele_pub.asc && \
@@ -23,7 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
 
 RUN apt-get update && apt-get install -y --no-install-recommends python-pip && \
     pip install --upgrade pip && \
-    pip install django==1.6.11 && \
+    pip install django==1.8.17 && \
     apt-get remove -y --auto-remove python-pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -47,7 +52,7 @@ RUN curl http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu16
 RUN touch /etc/crontab
 
 # make runit service directories
-RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/qlproxy /etc/service/wsmgr
+RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
