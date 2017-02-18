@@ -16,9 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
             libapache2-mod-wsgi \
             python-ldap	\
             sudo \
-#            python-dev \
-#            libjpeg-dev \
-#            zlib1g-dev \
             python-reportlab \
             krb5-user \
             sqlite && \
