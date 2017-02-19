@@ -53,6 +53,7 @@ RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/servi
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
+COPY contents/qlproxy_update /etc/cron.daily
 COPY contents/wsicap /etc/service/wsicap/run
 COPY contents/wsmgr /etc/service/wsmgr/run
 COPY contents/squid /etc/service/squid/run
@@ -67,6 +68,7 @@ COPY contents/firstrun.sh /usr/local/bin/firstrun.sh
 RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
     chmod +x /opt/qlproxy/bin/* && \
     chmod +x /usr/local/bin/firstrun.sh && \
+    chmod +x /etc/cron.daily/qlproxy_update && \
     chmod u+s /opt/qlproxy/bin/* && \
     chmod 755 /opt/qlproxy/bin/certmgr && \
     chmod +x /etc/service/squid/run \
