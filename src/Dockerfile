@@ -79,7 +79,7 @@ RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
 # assign volumes
 VOLUME ["/opt/qlproxy/etc"]
 VOLUME ["/opt/qlproxy/var/spool"]
-VOLUME ["/opt/qlproxy/var/console/console"]
+VOLUME ["/opt/qlproxy/var/console"]
 VOLUME ["/opt/qlproxy/var/db"]
 VOLUME ["/opt/qlproxy/var/log"]
 VOLUME ["/opt/qlproxy/var/reports"]
