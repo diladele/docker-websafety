@@ -13,5 +13,7 @@
 	"sudo_path" : "/usr/bin/sudo",
 	"auth_exe_wrapper" : "/usr/lib/squid/negotiate_wrapper_auth",
 	"krb5_exe_helper"  : "/usr/lib/squid/negotiate_kerberos_auth",
-	"ldap_exe_helper"  : "/usr/lib/squid/basic_ldap_auth"
+	"ldap_exe_helper"  : "/usr/lib/squid/basic_ldap_auth",
+	"ncsa_exe_helper"  : "/usr/lib/squid/basic_ncsa_auth",
+	"htpasswd_exe_path" : "/usr/bin/htpasswd"	
 }
