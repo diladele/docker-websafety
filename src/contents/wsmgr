@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /opt/qlproxy/bin/wsmgrd
+exec /opt/websafety/bin/wsmgrd

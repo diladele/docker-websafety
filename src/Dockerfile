@@ -8,7 +8,7 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 4.9.0.19B2
+ENV DDWS_VER 5.0.0.09DD 
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
             python-ldap	\
             sudo \
             python-reportlab \
+            python-openssl \
             krb5-user \
             sqlite && \
     a2dissite 000-default && \
@@ -26,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
 RUN apt-get update && apt-get install -y --no-install-recommends python-pip && \
     pip install --upgrade pip && \
     pip install django==1.8.17 && \
+    pip install pytz && \
     apt-get remove -y --auto-remove python-pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -39,11 +41,11 @@ RUN echo "deb http://ubuntu16.diladele.com/ubuntu/ xenial main" > /etc/apt/sourc
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # get latest web safety and install it
-RUN curl http://packages.diladele.com/qlproxy/${DDWS_VER}/amd64/release/ubuntu16/qlproxy-${DDWS_VER}_amd64.deb -o qlproxy-${DDWS_VER}_amd64.deb  && \
-	dpkg --install qlproxy-${DDWS_VER}_amd64.deb && \
-	rm -f qlproxy-${DDWS_VER}_amd64.deb && \
-	a2ensite qlproxy && \
-	mkdir -p /var/log/qlproxy
+RUN curl http://packages.diladele.com/websafety/${DDWS_VER}/amd64/release/ubuntu16/websafety-${DDWS_VER}_amd64.deb -o websafety-${DDWS_VER}_amd64.deb  && \
+	dpkg --install websafety-${DDWS_VER}_amd64.deb && \
+	rm -f websafety-${DDWS_VER}_amd64.deb && \
+	a2ensite websafety && \
+	mkdir -p /var/log/websafety
 
 # too many hardlinks in phusion-basimage for crontab
 RUN touch /etc/crontab
@@ -53,36 +55,36 @@ RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/servi
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
-COPY contents/qlproxy_update /etc/cron.daily
+COPY contents/websafety_update /etc/cron.daily
 COPY contents/wsicap /etc/service/wsicap/run
 COPY contents/wsmgr /etc/service/wsmgr/run
 COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
-COPY contents/reload.sh /opt/qlproxy/bin/reload.sh
-COPY contents/restart.sh /opt/qlproxy/bin/restart.sh
-COPY contents/system.json /opt/qlproxy/etc/system.json
-COPY contents/license.pem /opt/qlproxy/etc/license.pem
+COPY contents/reload.sh /opt/websafety/bin/reload.sh
+COPY contents/restart.sh /opt/websafety/bin/restart.sh
+COPY contents/system.json /opt/websafety/etc/system.json
+COPY contents/license.pem /opt/websafety/etc/license.pem
 COPY contents/firstrun.sh /usr/local/bin/firstrun.sh
 
 # reset owner of installation path
-RUN chown -R qlproxy:qlproxy /opt/qlproxy && \
-    chmod +x /opt/qlproxy/bin/* && \
+RUN chown -R websafety:websafety /opt/websafety && \
+    chmod +x /opt/websafety/bin/* && \
     chmod +x /usr/local/bin/firstrun.sh && \
-    chmod +x /etc/cron.daily/qlproxy_update && \
-    chmod u+s /opt/qlproxy/bin/* && \
-    chmod 755 /opt/qlproxy/bin/certmgr && \
+    chmod +x /etc/cron.daily/websafety_update && \
+    chmod u+s /opt/websafety/bin/* && \
+    chmod 755 /opt/websafety/bin/certmgr && \
     chmod +x /etc/service/squid/run \
 		/etc/service/wsmgr/run \
 		/etc/service/wsicap/run \
 		/etc/service/apache2/run
 
 # assign volumes
-VOLUME ["/opt/qlproxy/etc"]
-VOLUME ["/opt/qlproxy/var/spool"]
-VOLUME ["/opt/qlproxy/var/console"]
-VOLUME ["/opt/qlproxy/var/db"]
-VOLUME ["/opt/qlproxy/var/log"]
-VOLUME ["/opt/qlproxy/var/reports"]
+VOLUME ["/opt/websafety/etc"]
+VOLUME ["/opt/websafety/var/spool"]
+VOLUME ["/opt/websafety/var/console"]
+VOLUME ["/opt/websafety/var/db"]
+VOLUME ["/opt/websafety/var/log"]
+VOLUME ["/opt/websafety/var/reports"]
 VOLUME ["/etc/squid"]
 VOLUME ["/var/spool"]
 VOLUME ["/var/log/squid"]

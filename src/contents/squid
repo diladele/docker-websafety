@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# let qlproxy and wsmgr start before squid - exit script until they're running
+# let websafety and wsmgr start before squid - exit script until they're running
 wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
 wsmgrstatus=`sv status wsmgr |cut -d ' ' -f 1`
 

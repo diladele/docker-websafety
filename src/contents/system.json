@@ -1,6 +1,6 @@
 {
-	"websafety_user" : "qlproxy",
-	"websafety_group" : "qlproxy",
+	"websafety_user" : "websafety",
+	"websafety_group" : "websafety",
 	"squid_user": "proxy",
 	"squid_exe_path":"/usr/sbin/squid",
 	"squid_conf_path":"/etc/squid/squid.conf",
