@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
             python-ldap	\
             sudo \
             python-reportlab \
+            python-openssl \
             krb5-user \
             sqlite && \
     a2dissite 000-default && \
@@ -26,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
 RUN apt-get update && apt-get install -y --no-install-recommends python-pip && \
     pip install --upgrade pip && \
     pip install django==1.8.17 && \
+    pip install pytz \
     apt-get remove -y --auto-remove python-pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
