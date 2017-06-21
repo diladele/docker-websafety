@@ -1,4 +1,4 @@
-Diladele Web Safety 4.8 in Docker with Squid 3.5.23
+Diladele Web Safety 5.0 in Docker with Squid 3.5.23
 =============================================
 
 This project provides a full Docker image for Diladele Web Safety, including Squid with SSL support(version 3.5.23) and Apache.

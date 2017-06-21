@@ -1,9 +1,0 @@
-#!/bin/bash
-LOGFILE="/opt/qlproxy/var/log/cron_update.log"
-
-if [ -f "$LOGFILE" ]; then
-    echo "" >"$LOGFILE"
-fi
-touch "$LOGFILE" && /bin/bash /opt/qlproxy/bin/update.sh > "$LOGFILE" 2>&1
-
-chown qlproxy:qlproxy $LOGFILE

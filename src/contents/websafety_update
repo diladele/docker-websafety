@@ -1,0 +1,9 @@
+#!/bin/bash
+LOGFILE="/opt/websafety/var/log/cron_update.log"
+
+if [ -f "$LOGFILE" ]; then
+    echo "" >"$LOGFILE"
+fi
+touch "$LOGFILE" && /bin/bash /opt/websafety/bin/update.sh > "$LOGFILE" 2>&1
+
+chown websafety:websafety $LOGFILE
