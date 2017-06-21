@@ -91,4 +91,4 @@ In case of any questions, please contact support@diladele.com
 
 # Contributors
 
-Our big thanks go to Ian Bashford for his invaluable contributions!
+Our big thanks go to Ian Bashford for his invaluable contributions. Also a lot of thanks to Johann Richard for moving to version 5.0.
