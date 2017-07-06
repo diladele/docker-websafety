@@ -8,7 +8,7 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 5.0.0.09DD 
+ENV DDWS_VER 5.0.0.09DD
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
@@ -51,7 +51,7 @@ RUN curl http://packages.diladele.com/websafety/${DDWS_VER}/amd64/release/ubuntu
 RUN touch /etc/crontab
 
 # make runit service directories
-RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr
+RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr /opt/websafety/var/reports
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
@@ -73,6 +73,7 @@ RUN chown -R websafety:websafety /opt/websafety && \
     chmod +x /etc/cron.daily/websafety_update && \
     chmod u+s /opt/websafety/bin/* && \
     chmod 755 /opt/websafety/bin/certmgr && \
+    chmod 755 /opt/websafety/bin/report && \
     chmod +x /etc/service/squid/run \
 		/etc/service/wsmgr/run \
 		/etc/service/wsicap/run \
