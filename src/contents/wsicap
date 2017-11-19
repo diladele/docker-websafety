@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /opt/websafety/bin/wsicapd --nodaemon
+exec /opt/websafety/bin/wsicapd --foreground

@@ -1,14 +1,14 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.9.22
 
 MAINTAINER support@diladele.com
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 5.0.0.09DD
+ENV DDWS_VER 5.2.0.210A
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
@@ -72,7 +72,7 @@ RUN chown -R websafety:websafety /opt/websafety && \
     chmod +x /usr/local/bin/firstrun.sh && \
     chmod +x /etc/cron.daily/websafety_update && \
     chmod u+s /opt/websafety/bin/* && \
-    chmod 755 /opt/websafety/bin/certmgr && \
+    chmod 755 /opt/websafety/bin/certmgr.py && \
     chmod 755 /opt/websafety/bin/report && \
     chmod +x /etc/service/squid/run \
 		/etc/service/wsmgr/run \

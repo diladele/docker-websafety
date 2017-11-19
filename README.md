@@ -1,15 +1,13 @@
-Diladele Web Safety 5.0 in Docker with Squid 3.5.23
-=============================================
+Diladele Web Safety 5.2 in Docker with Squid 3.5.23
+===================================================
 
 This project provides a full Docker image for Diladele Web Safety, including Squid with SSL support(version 3.5.23) and Apache.
 
 Diladele Web Safety for Squid Proxy is the ICAP web filtering server that provides rich content and web filtering functionality to sanitize Internet traffic passing into an internal home/enterprise network. It may be used to block illegal or potentially malicious file downloads, remove annoying advertisements, prevent access to various categories of web sites and block resources with explicit content. The application is easily deployed and managed, requires minimal external dependencies, very robust and runs with the excellent performance. 
 
-It supports all major Linux distributions (Ubuntu, RedHat, Debian, CentOS), FreeBSD (pfSense) and Raspberry PI (2). With the latest release of Docker it can also run on Windows 10 Professional.
+It supports all major Linux distributions (Ubuntu, Debian, CentOS), FreeBSD (pfSense) and Raspberry PI (2). With the latest release of Docker it can also run on Windows 10 Professional.
 
-*There were a lot of breaking changes in 5.0 compared to 4.X versions. If you run Web Safety on real hardware it is recommended to completely rebuild the proxy box from scratch. See [Version History](https://docs.diladele.com/version_history/index.html) for more information!* 
-
-***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_5_0/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from the 4.x docker image.***
+***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_5_2/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from the 4.x docker image.***
 
 # Running the image from Docker Hub
 
