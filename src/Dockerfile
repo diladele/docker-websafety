@@ -1,14 +1,14 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:0.9.22
+FROM phusion/baseimage:0.10.0
 
 MAINTAINER support@diladele.com
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 5.2.0.210A
+ENV DDWS_VER 6.1.0.1995
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
@@ -26,8 +26,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
 
 RUN apt-get update && apt-get install -y --no-install-recommends python-pip && \
     pip install --upgrade pip && \
-    pip install django==1.8.17 && \
+    pip install django==1.11.7 && \
     pip install pytz && \
+    pip install requests && \
     apt-get remove -y --auto-remove python-pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -51,13 +52,14 @@ RUN curl http://packages.diladele.com/websafety/${DDWS_VER}/amd64/release/ubuntu
 RUN touch /etc/crontab
 
 # make runit service directories
-RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr /opt/websafety/var/reports
+RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr /etc/service/wsgsb /opt/websafety/var/reports
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
 COPY contents/websafety_update /etc/cron.daily
 COPY contents/wsicap /etc/service/wsicap/run
 COPY contents/wsmgr /etc/service/wsmgr/run
+COPY contents/wsgsb /etc/service/wsgsb/run
 COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
 COPY contents/reload.sh /opt/websafety/bin/reload.sh
