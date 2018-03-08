@@ -1,10 +1,10 @@
 # delete all containers
-# docker rm -f `docker ps -a -q`
+docker rm -f `docker ps -a -q`
 
 # delete all images
-# docker rmi -f `docker images -q`
+docker rmi -f `docker images -q`
 
 # rebuild our project
 docker rm -f websafety-config websafety
-docker rmi -f diladele/websafety:5.2
-docker build --force-rm --no-cache --rm=true -t diladele/websafety:5.2 .
+docker rmi -f diladele/websafety:6.1
+docker build --force-rm --no-cache --rm=true -t diladele/websafety:6.1 .
