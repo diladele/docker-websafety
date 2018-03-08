@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Reloads Diladele Web Safety and Squid Proxy, usually called by the Web UI
+# Reloads Web Safety and Squid Proxy, usually called by the Web UI
 #
 # returns:
 #        0 - on success

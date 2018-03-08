@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python-pip && \
     apt-get remove -y --auto-remove python-pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN echo "deb http://ubuntu16.diladele.com/ubuntu/ xenial main" > /etc/apt/sources.list.d/ubuntu16.diladele.com.list && \
+RUN echo "deb http://squid3527.diladele.com/ubuntu/ xenial main" > /etc/apt/sources.list.d/squid3527.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
             libecap3 \
             squid-common \
@@ -64,7 +64,6 @@ COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
 COPY contents/reload.sh /opt/websafety/bin/reload.sh
 COPY contents/restart.sh /opt/websafety/bin/restart.sh
-COPY contents/system.json /opt/websafety/etc/system.json
 COPY contents/license.pem /opt/websafety/etc/license.pem
 COPY contents/firstrun.sh /usr/local/bin/firstrun.sh
 
@@ -79,6 +78,7 @@ RUN chown -R websafety:websafety /opt/websafety && \
     chmod +x /etc/service/squid/run \
 		/etc/service/wsmgr/run \
 		/etc/service/wsicap/run \
+        /etc/service/wsgsb/run \
 		/etc/service/apache2/run
 
 # assign volumes
