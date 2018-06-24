@@ -1,13 +1,13 @@
-Web Safety 6.1 in Docker with Squid 3.5.27
+Web Safety 6.2 in Docker with Squid 3.5.27
 ==========================================
 
 This project provides a full Docker image for Web Safety, including Squid with SSL support(version 3.5.27) and Apache.
 
 Web Safety for Squid Proxy is the ICAP web filtering server that provides rich content and web filtering functionality to sanitize Internet traffic passing into an internal home/enterprise network. It may be used to block illegal or potentially malicious file downloads, remove annoying advertisements, prevent access to various categories of web sites and block resources with explicit content. The application is easily deployed and managed, requires minimal external dependencies, very robust and runs with the excellent performance. 
 
-It supports all major Linux distributions (Ubuntu, Debian, CentOS), FreeBSD (pfSense) and Raspberry PI (2). With the latest release of Docker it can also run on Windows 10 Professional.
+It supports all major Linux distributions (Ubuntu, Debian, CentOS) and FreeBSD (pfSense). With the latest release of Docker it can also run on Windows 10 Professional or Windows Server 2016.
 
-***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_6_1/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from previous images.***
+***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_6_2/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from previous images.***
 
 # Running the image from Docker Hub
 
