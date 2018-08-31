@@ -1,11 +1,11 @@
 Web Safety 6.2 in Docker with Squid 3.5.27
 ==========================================
 
-This project provides a full Docker image for Web Safety, including Squid with SSL support(version 3.5.27) and Apache.
+This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 3.5.27).
 
 Web Safety for Squid Proxy is the ICAP web filtering server that provides rich content and web filtering functionality to sanitize Internet traffic passing into an internal home/enterprise network. It may be used to block illegal or potentially malicious file downloads, remove annoying advertisements, prevent access to various categories of web sites and block resources with explicit content. The application is easily deployed and managed, requires minimal external dependencies, very robust and runs with the excellent performance. 
 
-It supports all major Linux distributions (Ubuntu, Debian, CentOS) and FreeBSD (pfSense). With the latest release of Docker it can also run on Windows 10 Professional or Windows Server 2016.
+It supports all major Linux distributions (Ubuntu, Debian, CentOS) and partially FreeBSD (pfSense). With the latest release of Docker it can also run on Windows 10 Professional, Windows Server 2016 and Apple MacOS X.
 
 ***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_6_2/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from previous images.***
 
@@ -17,12 +17,12 @@ If you had the image already deployed please see how you can [clean before updat
 
 In order to run the product please execute the following commands:
 ```
-    docker run -it --name websafety-config diladele/websafety /usr/local/bin/firstrun.sh
-    docker run -dt --name websafety --dns=8.8.8.8 --volumes-from websafety-config -p 8000:80 -p 3128:3128 diladele/websafety
+    docker run -it --name websafety-config diladele/websafety:6.2 /usr/local/bin/firstrun.sh
+    docker run -dt --name websafety --dns=8.8.8.8 --volumes-from websafety-config -p 8000:80 -p 3128:3128 diladele/websafety:6.2
 ```
-After executing these commands, you can connect to the Web UI typing [http://localhost:8000](http://localhost:8000) in your browser.
+After executing these commands, you can connect to the Admin Console typing [http://localhost:8000](http://localhost:8000) in your browser.
 
-The Squid is listening on port 3128. 
+The Squid proxy is listening on port 3128. 
 
 To stop the container, please run:
 
@@ -32,7 +32,7 @@ To start the container again, please run:
 
     docker start websafety
 
-The full tutorial can be found [here](https://docs.diladele.com/docker/docker_windows_10/index.html).
+The full tutorial explaining how to run this Docker container on Windows 10 can be found [here](https://docs.diladele.com/docker/docker_windows_10/index.html).
 
 # Removing existing images and containers
 
@@ -83,8 +83,10 @@ In case of any questions, please contact support@diladele.com
 
 # References
 
-* For standalone VMware ESXi/vSphere or Microsoft-HyperV virtual appliance visit [Web Safety Virtual Appliance](https://www.diladele.com/virtual_appliance.html)
+* For standalone VMware ESXi/vSphere or Microsoft-HyperV virtual appliance visit [Web Safety Virtual Appliance](https://www.diladele.com/virtual_appliance.html).
+* Virtual Appliance can also be deployed from Microsoft Azure Market Place using the following link https://azuremarketplace.microsoft.com/en-us/marketplace/apps/diladele.websafety?tab=Overview   
 * Documentation for the project is [available online](https://docs.diladele.com)
+* Support requests should be directed to support@diladele.com.
 
 # Contributors
 
