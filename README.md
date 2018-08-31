@@ -13,7 +13,7 @@ It supports all major Linux distributions (Ubuntu, Debian, CentOS) and partially
 
 Please install docker from www.docker.com.
 
-If you had the image already deployed please see how you can [clean before updating to the newest version](# Removing existing images and containers).
+If you had the image already deployed please see how you can [clean before updating to the newest version](#removing-existing-images-and-containers).
 
 In order to run the product please execute the following commands:
 ```
