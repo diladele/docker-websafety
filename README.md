@@ -52,7 +52,7 @@ In order to remove the previous version of websafety, please perform the followi
 ```
     docker rmi diladele/websafety
 ```
-See how you can [install the new version](#Running-the-image-from-Docker-Hub).
+See how you can [install the new version](#running-the-image-from-docker-hub).
 
 # Building the image on your machine
 
