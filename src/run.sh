@@ -1,2 +1,2 @@
-docker run -it --name websafety-config diladele/websafety:6.2 /usr/local/bin/firstrun.sh
-docker run -dt --name websafety --dns=8.8.8.8 --volumes-from websafety-config -p 8000:80 -p 3128:3128 diladele/websafety:6.2
+docker run -it --name websafety-config diladele/websafety:6.4 /usr/local/bin/firstrun.sh
+docker run -dt --name websafety --dns=8.8.8.8 --volumes-from websafety-config -p 8000:80 -p 3128:3128 diladele/websafety:6.4

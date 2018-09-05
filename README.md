@@ -1,4 +1,4 @@
-Web Safety 6.2 in Docker with Squid 3.5.27
+Web Safety 6.4 in Docker with Squid 3.5.27
 ==========================================
 
 This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 3.5.27).
@@ -7,7 +7,7 @@ Web Safety for Squid Proxy is the ICAP web filtering server that provides rich c
 
 It supports all major Linux distributions (Ubuntu, Debian, CentOS) and partially FreeBSD (pfSense). With the latest release of Docker it can also run on Windows 10 Professional, Windows Server 2016 and Apple MacOS X.
 
-***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_6_2/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from previous images.***
+***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_6_4/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from previous images.***
 
 # Running the image from Docker Hub
 
@@ -17,8 +17,8 @@ If you had the image already deployed please see how you can [clean before updat
 
 In order to run the product please execute the following commands:
 ```
-    docker run -it --name websafety-config diladele/websafety:6.2 /usr/local/bin/firstrun.sh
-    docker run -dt --name websafety --dns=8.8.8.8 --volumes-from websafety-config -p 8000:80 -p 3128:3128 diladele/websafety:6.2
+    docker run -it --name websafety-config diladele/websafety:6.4 /usr/local/bin/firstrun.sh
+    docker run -dt --name websafety --dns=8.8.8.8 --volumes-from websafety-config -p 8000:80 -p 3128:3128 diladele/websafety:6.4
 ```
 After executing these commands, you can connect to the Admin Console typing [http://localhost:8000](http://localhost:8000) in your browser.
 
@@ -48,7 +48,7 @@ In order to remove the previous version of websafety, please perform the followi
     docker rm websafety-config
 ```
 
-  * remove outdatad image (optional):
+  * remove outdated image (optional):
 ```
     docker rmi diladele/websafety
 ```
