@@ -1,7 +1,7 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:0.10.0
+FROM phusion/baseimage:0.11.0
 
 MAINTAINER support@diladele.com
 
