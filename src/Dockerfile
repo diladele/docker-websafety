@@ -22,15 +22,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     curl http://packages.diladele.com/diladele_pub.asc -o diladele_pub.asc && apt-key add diladele_pub.asc && rm diladele_pub.asc && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN \
+RUN pip3 install wheel
+
+RUN \ 
     pip3 install \
         django==2.1.2 \
         pytz \
         requests \
         pandas \
-        PyYAML 
+        PyYAML \
+        pyOpenSSL
 
-RUN pip3 uninstall ldap ldap3 python-ldap
+RUN pip3 uninstall ldap ldap3 python-ldap || true
 
 RUN pip3 install \
     python-ldap \
@@ -51,7 +54,9 @@ RUN curl http://packages.diladele.com/websafety/${DDWS_VER}/amd64/release/ubuntu
     dpkg --install websafety-${DDWS_VER}_amd64.deb && \
     rm -f websafety-${DDWS_VER}_amd64.deb && \
     a2ensite websafety && \
-    mkdir -p /var/log/websafety
+    mkdir -p /var/run/apache2 && \
+    mkdir -p /var/log/websafety && \
+    sudo -u websafety python3 /opt/websafety/var/console/generate.py
 
 # too many hardlinks in phusion-basimage for crontab
 RUN touch /etc/crontab
