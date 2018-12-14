@@ -1,41 +1,48 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:0.10.0
+FROM phusion/baseimage:0.11
 
 MAINTAINER support@diladele.com
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 6.4.0.2517
+ENV DDWS_VER 7.0.0.44C3
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
-            apache2 \
-            libapache2-mod-wsgi \
-            python-ldap	\
-            sudo \
-            python-reportlab \
-            python-openssl \
+            apache2 libapache2-mod-wsgi-py3 \
+            python3-pip python3-dev python3-setuptools \
+            sudo curl gnupg sqlite htop mc \
+            libsasl2-dev libldap2-dev libssl-dev g++ \
             krb5-user \
             sqlite && \
     a2dissite 000-default && \
     curl http://packages.diladele.com/diladele_pub.asc -o diladele_pub.asc && apt-key add diladele_pub.asc && rm diladele_pub.asc && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y --no-install-recommends python-pip && \
-    pip install --upgrade pip==9.0.3 && \
-    pip install django==1.11.7 && \
-    pip install pytz && \
-    pip install pandas && \
-    pip install requests && \
-    apt-get remove -y --auto-remove python-pip && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN pip3 install wheel
 
-RUN echo "deb http://squid3527.diladele.com/ubuntu/ xenial main" > /etc/apt/sources.list.d/squid3527.diladele.com.list && \
+RUN \ 
+    pip3 install \
+        django==2.1.2 \
+        pytz \
+        requests \
+        pandas \
+        PyYAML \
+        pyOpenSSL
+
+RUN pip3 uninstall ldap ldap3 python-ldap || true
+
+RUN pip3 install \
+    python-ldap \
+    reportlab==3.4.0
+
+
+RUN echo "deb http://squid44.diladele.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/squid44.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
-            libecap3 \
+            libecap3 libecap3-dev \
             squid-common \
             squid \
             squidclient && \
@@ -43,11 +50,13 @@ RUN echo "deb http://squid3527.diladele.com/ubuntu/ xenial main" > /etc/apt/sour
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # get latest web safety and install it
-RUN curl http://packages.diladele.com/websafety/${DDWS_VER}/amd64/release/ubuntu16/websafety-${DDWS_VER}_amd64.deb -o websafety-${DDWS_VER}_amd64.deb  && \
-	dpkg --install websafety-${DDWS_VER}_amd64.deb && \
-	rm -f websafety-${DDWS_VER}_amd64.deb && \
-	a2ensite websafety && \
-	mkdir -p /var/log/websafety
+RUN curl http://packages.diladele.com/websafety/${DDWS_VER}/amd64/release/ubuntu18/websafety-${DDWS_VER}_amd64.deb -o websafety-${DDWS_VER}_amd64.deb  && \
+    dpkg --install websafety-${DDWS_VER}_amd64.deb && \
+    rm -f websafety-${DDWS_VER}_amd64.deb && \
+    a2ensite websafety && \
+    mkdir -p /var/run/apache2 && \
+    mkdir -p /var/log/websafety && \
+    sudo -u websafety python3 /opt/websafety/var/console/generate.py
 
 # too many hardlinks in phusion-basimage for crontab
 RUN touch /etc/crontab
@@ -78,11 +87,11 @@ RUN chown -R websafety:websafety /opt/websafety && \
     chmod 755 /opt/websafety/bin/certmgr.py && \
     chmod 755 /opt/websafety/bin/report && \
     chmod +x /etc/service/squid/run \
-		/etc/service/wsmgr/run \
-		/etc/service/wsicap/run \
+        /etc/service/wsmgr/run \
+        /etc/service/wsicap/run \
         /etc/service/wsgsb/run \
         /etc/service/wsytg/run \
-		/etc/service/apache2/run
+        /etc/service/apache2/run
 
 # assign volumes
 VOLUME ["/opt/websafety/etc"]
