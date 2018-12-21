@@ -8,7 +8,7 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 7.0.0.8768
+ENV DDWS_VER 7.0.0.7A5E
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
