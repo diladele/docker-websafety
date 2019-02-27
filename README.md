@@ -1,7 +1,7 @@
-Web Safety 7.0 in Docker with Squid 4.4
+Web Safety 7.0 in Docker with Squid 4.6
 =======================================
 
-This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 4.4).
+This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 4.6).
 
 Web Safety for Squid Proxy is the ICAP web filtering server that provides rich content and web filtering functionality to sanitize Internet traffic passing into an internal home/enterprise network. It may be used to block illegal or potentially malicious file downloads, remove annoying advertisements, prevent access to various categories of web sites and block resources with explicit content. The application is easily deployed and managed, requires minimal external dependencies, very robust and runs with the excellent performance. 
 

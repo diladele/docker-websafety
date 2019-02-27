@@ -40,7 +40,7 @@ RUN pip3 install \
     reportlab==3.4.0
 
 
-RUN echo "deb http://squid44.diladele.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/squid44.diladele.com.list && \
+RUN echo "deb http://squid46.diladele.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/squid46.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
             libecap3 libecap3-dev \
             squid-common \
