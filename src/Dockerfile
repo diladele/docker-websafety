@@ -1,46 +1,45 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:bionic-1.0.0
 
 MAINTAINER support@diladele.com
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 7.0.0.7A5E
+ENV DDWS_VER 7.5.0.0ADC
+ENV DDWS_UI_VER 7.5.0.AF41
 
 # install python libs and apache with modwsgi
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
-            apache2 libapache2-mod-wsgi-py3 \
-            python3-pip python3-dev python3-setuptools \
-            sudo curl gnupg sqlite htop mc \
-            libsasl2-dev libldap2-dev libssl-dev g++ \
-            krb5-user \
-            sqlite && \
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+    apt-get install -y --no-install-recommends apt-utils \
+    apache2 libapache2-mod-wsgi-py3 \
+    python3-pip python3-dev python3-setuptools \
+    sudo curl gnupg libsasl2-dev libldap2-dev libssl-dev g++ \
+    krb5-user \
+    sqlite && \
     a2dissite 000-default && \
     curl http://packages.diladele.com/diladele_pub.asc -o diladele_pub.asc && apt-key add diladele_pub.asc && rm diladele_pub.asc && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install wheel
-
-RUN \ 
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    # the Azure deployment insists on this
+    # sed -i 's/ClientAliveInterval 120/ClientAliveInterval 180/g' /etc/ssh/sshd_config && \
+    # change cloud config to preserve hostname, otherwise our UI cannot set it
+    # sed -i 's/preserve_hostname: false/preserve_hostname: true/g' /etc/cloud/cloud.cfg && \
+    pip3 install wheel && \
     pip3 install \
-        django==2.1.2 \
-        pytz \
-        requests \
-        pandas \
-        PyYAML \
-        pyOpenSSL
-
-RUN pip3 uninstall ldap ldap3 python-ldap || true
-
-RUN pip3 install \
-    python-ldap \
-    reportlab==3.4.0
+         django==2.1.2 \
+         pytz \
+         requests \
+         pandas \
+         PyYAML \
+         pyOpenSSL && \
+    pip3 uninstall ldap ldap3 python-ldap || true && \
+    pip3 install python-ldap
+    #reportlab==3.4.0
 
 
-RUN echo "deb http://squid46.diladele.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/squid46.diladele.com.list && \
+RUN echo "deb http://squid413.diladele.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/squid413.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
             libecap3 libecap3-dev \
             squid-common \
@@ -50,19 +49,21 @@ RUN echo "deb http://squid46.diladele.com/ubuntu/ bionic main" > /etc/apt/source
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # get latest web safety and install it
-RUN curl http://packages.diladele.com/websafety/${DDWS_VER}/amd64/release/ubuntu18/websafety-${DDWS_VER}_amd64.deb -o websafety-${DDWS_VER}_amd64.deb  && \
-    dpkg --install websafety-${DDWS_VER}_amd64.deb && \
-    rm -f websafety-${DDWS_VER}_amd64.deb && \
+RUN curl http://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/ubuntu18/websafety-${DDWS_VER}_amd64.deb -o websafety-core${DDWS_VER}_amd64.deb && \
+    curl http://packages.diladele.com/websafety-ui/${DDWS_UI_VER}/amd64/release/ubuntu18/websafety-ui-${DDWS_UI_VER}_amd64.deb -o websafety-ui-${DDWS_UI_VER}_amd64.deb && \
+    dpkg --install websafety-core${DDWS_VER}_amd64.deb && \
+    dpkg --install websafety-ui-${DDWS_UI_VER}_amd64.deb && \
+    chown -R proxy:proxy /opt/websafety && \
+    rm -f websafety-core${DDWS_VER}_amd64.deb && \
+    rm -f websafety-ui-${DDWS_UI_VER}_amd64.deb && \
     a2ensite websafety && \
     mkdir -p /var/run/apache2 && \
     mkdir -p /var/log/websafety && \
-    sudo -u websafety python3 /opt/websafety/var/console/generate.py
-
-# too many hardlinks in phusion-basimage for crontab
-RUN touch /etc/crontab
-
-# make runit service directories
-RUN mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr /etc/service/wsgsb /etc/service/wsytg /opt/websafety/var/reports
+    sudo -u proxy python3 /opt/websafety-ui/var/console/generate.py --core && \
+    sudo -u websafety python3 /opt/websafety-ui/var/console/generate.py --ui && \
+    chown -R websafety:websafety /opt/websafety-ui && \
+    #sudo -u websafety python3 /opt/websafety-ui/var/console/utils.py --network="ubuntu18" && \
+    touch /etc/crontab && mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr /etc/service/wsgsb /etc/service/wsytg /opt/websafety/var/reports
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
@@ -84,14 +85,12 @@ RUN chown -R websafety:websafety /opt/websafety && \
     chmod +x /usr/local/bin/firstrun.sh && \
     chmod +x /etc/cron.daily/websafety_update && \
     chmod u+s /opt/websafety/bin/* && \
-    chmod 755 /opt/websafety/bin/certmgr.py && \
-    chmod 755 /opt/websafety/bin/report && \
     chmod +x /etc/service/squid/run \
-        /etc/service/wsmgr/run \
-        /etc/service/wsicap/run \
-        /etc/service/wsgsb/run \
-        /etc/service/wsytg/run \
-        /etc/service/apache2/run
+             /etc/service/wsmgr/run \
+             /etc/service/wsicap/run \
+             /etc/service/wsgsb/run \
+             /etc/service/wsytg/run \
+             /etc/service/apache2/run
 
 # assign volumes
 VOLUME ["/opt/websafety/etc"]
