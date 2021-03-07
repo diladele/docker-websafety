@@ -63,15 +63,15 @@ RUN curl http://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/u
     sudo -u websafety python3 /opt/websafety-ui/var/console/generate.py --ui && \
     chown -R websafety:websafety /opt/websafety-ui && \
     #sudo -u websafety python3 /opt/websafety-ui/var/console/utils.py --network="ubuntu18" && \
-    touch /etc/crontab && mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsmgr /etc/service/wsgsb /etc/service/wsytg /opt/websafety/var/reports
+    touch /etc/crontab && mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsgsb /etc/service/wsytg /opt/websafety/var/reports /etc/service/wssync
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
 COPY contents/websafety_update /etc/cron.daily
 COPY contents/wsicap /etc/service/wsicap/run
-COPY contents/wsmgr /etc/service/wsmgr/run
 COPY contents/wsgsb /etc/service/wsgsb/run
 COPY contents/wsytg /etc/service/wsytg/run
+COPY contents/wssync /etc/service/wssync/run
 COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
 COPY contents/reload.sh /opt/websafety/bin/reload.sh
@@ -86,7 +86,6 @@ RUN chown -R websafety:websafety /opt/websafety && \
     chmod +x /etc/cron.daily/websafety_update && \
     chmod u+s /opt/websafety/bin/* && \
     chmod +x /etc/service/squid/run \
-             /etc/service/wsmgr/run \
              /etc/service/wsicap/run \
              /etc/service/wsgsb/run \
              /etc/service/wsytg/run \

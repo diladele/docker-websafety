@@ -5,11 +5,11 @@ guardfile=/tmp/regenerated
 if [[ -f "${guardfile}" ]]; then
   echo "${guardfile} exists, no need to regenerate ceritifcate storage"
 else
-  /opt/websafety/bin/certmgr.py --action="regenerate-certificate-storage"
+  /opt/websafety-ui/bin/certmgr.py --action="regenerate-certificate-storage"
 fi
 
 if ! [[ -z "$TIME_ZONE" ]]; then
-    sed -i "s:TIME_ZONE = '.*':TIME_ZONE='$TIME_ZONE':" /opt/websafety/var/console/console/settings.py
+    sed -i "s:TIME_ZONE = '.*':TIME_ZONE='$TIME_ZONE':" /opt/websafety-ui/var/console/console/settings.py
 fi
 
 cd /opt/websafety/var/spool
@@ -20,4 +20,4 @@ mv categories categories.a && mv categories.a categories
 mv categories_custom categories_custom.a && mv categories_custom.a categories_custom
 mv privacy privacy.a && mv privacy.a privacy
 
-exec /opt/websafety/bin/wsicapd --foreground
+exec /opt/websafety/bin/wsicapd
