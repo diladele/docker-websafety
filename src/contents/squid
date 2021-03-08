@@ -2,12 +2,8 @@
 
 # let websafety and wsmgr start before squid - exit script until they're running
 wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
-wsmgrstatus=`sv status wsmgr |cut -d ' ' -f 1`
 
 if [[ "$wsicapstatus" != "run:" ]]
-then exit 1
-fi
-if [[ "$wsmgrstatus" != "run:" ]]
 then exit 1
 fi
 

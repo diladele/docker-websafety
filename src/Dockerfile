@@ -20,12 +20,14 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     krb5-user \
     sqlite && \
     a2dissite 000-default && \
-    curl http://packages.diladele.com/diladele_pub.asc -o diladele_pub.asc && apt-key add diladele_pub.asc && rm diladele_pub.asc && \
+    curl https://packages.diladele.com/diladele_pub.asc -s -o diladele_pub.asc && \
+    APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add diladele_pub.asc && rm diladele_pub.asc && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     # the Azure deployment insists on this
     # sed -i 's/ClientAliveInterval 120/ClientAliveInterval 180/g' /etc/ssh/sshd_config && \
     # change cloud config to preserve hostname, otherwise our UI cannot set it
     # sed -i 's/preserve_hostname: false/preserve_hostname: true/g' /etc/cloud/cloud.cfg && \
+    pip3 install --upgrade pip && \
     pip3 install wheel && \
     pip3 install \
          django==2.1.2 \
@@ -49,8 +51,8 @@ RUN echo "deb http://squid413.diladele.com/ubuntu/ bionic main" > /etc/apt/sourc
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # get latest web safety and install it
-RUN curl http://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/ubuntu18/websafety-${DDWS_VER}_amd64.deb -o websafety-core${DDWS_VER}_amd64.deb && \
-    curl http://packages.diladele.com/websafety-ui/${DDWS_UI_VER}/amd64/release/ubuntu18/websafety-ui-${DDWS_UI_VER}_amd64.deb -o websafety-ui-${DDWS_UI_VER}_amd64.deb && \
+RUN curl https://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/ubuntu18/websafety-${DDWS_VER}_amd64.deb -o websafety-core${DDWS_VER}_amd64.deb && \
+    curl https://packages.diladele.com/websafety-ui/${DDWS_UI_VER}/amd64/release/ubuntu18/websafety-ui-${DDWS_UI_VER}_amd64.deb -o websafety-ui-${DDWS_UI_VER}_amd64.deb && \
     dpkg --install websafety-core${DDWS_VER}_amd64.deb && \
     dpkg --install websafety-ui-${DDWS_UI_VER}_amd64.deb && \
     chown -R proxy:proxy /opt/websafety && \
