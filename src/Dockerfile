@@ -29,12 +29,15 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     # sed -i 's/preserve_hostname: false/preserve_hostname: true/g' /etc/cloud/cloud.cfg && \
     pip3 install --upgrade pip && \
     pip3 install wheel && \
-    pip3 install \
+    python3 -m pip install \
          django==2.1.2 \
          pytz \
          requests \
          pandas \
          PyYAML \
+         psutil \
+         tld \
+         jinja2 \
          pyOpenSSL && \
     pip3 uninstall ldap ldap3 python-ldap || true && \
     pip3 install python-ldap

@@ -10,9 +10,6 @@
 echo "Reloading Web Safety ICAP Daemon..."
 sv hup wsicap
 
-echo "Reloading Web Safety Monitoring Daemon..."
-sv hup wsmgr
-
 echo "Reloading Web Safety GSB Daemon..."
 sv hup wsgsb || true
 

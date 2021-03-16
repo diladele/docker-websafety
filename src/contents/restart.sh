@@ -10,9 +10,6 @@
 echo "Restarting Web Safety ICAP Daemon..."
 sv restart wsicap
 
-echo "Restarting Web Safety Monitoring Daemon..."
-sv restart wsmgr
-
 echo "Restarting Web Safety GSB Daemon..."
 sv restart wsgsb || true
 
