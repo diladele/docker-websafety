@@ -1,20 +1,22 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:bionic-1.0.0
+FROM phusion/baseimage:master-amd64
 
 MAINTAINER support@diladele.com
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 7.5.0.0ADC
-ENV DDWS_UI_VER 7.5.0.AF41
+ENV DDWS_VER 7.6.0.CE99
+ENV DDWS_UI_VER 7.6.0.F277
+ENV OSNAME "ubuntu20"
+ENV WEBSAFETY_IN_DOCKER "True"
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     apt-get install -y --no-install-recommends apt-utils \
-    apache2 libapache2-mod-wsgi-py3 \
+    apache2 libapache2-mod-wsgi-py3 iproute2 \
     python3-pip python3-dev python3-setuptools \
     sudo curl gnupg libsasl2-dev libldap2-dev libssl-dev g++ \
     krb5-user \
@@ -23,14 +25,10 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     curl https://packages.diladele.com/diladele_pub.asc -s -o diladele_pub.asc && \
     APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add diladele_pub.asc && rm diladele_pub.asc && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    # the Azure deployment insists on this
-    # sed -i 's/ClientAliveInterval 120/ClientAliveInterval 180/g' /etc/ssh/sshd_config && \
-    # change cloud config to preserve hostname, otherwise our UI cannot set it
-    # sed -i 's/preserve_hostname: false/preserve_hostname: true/g' /etc/cloud/cloud.cfg && \
     pip3 install --upgrade pip && \
     pip3 install wheel && \
     python3 -m pip install \
-         django==2.1.2 \
+         django==3.1.7 \
          pytz \
          requests \
          pandas \
@@ -41,24 +39,24 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
          pyOpenSSL && \
     pip3 uninstall ldap ldap3 python-ldap || true && \
     pip3 install python-ldap
-    #reportlab==3.4.0
 
 
-RUN echo "deb http://squid413.diladele.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/squid413.diladele.com.list && \
+RUN echo "deb https://squid413-${OSNAME}.diladele.com/ubuntu/ focal main" > /etc/apt/sources.list.d/squid413-ubuntu20.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
             libecap3 libecap3-dev \
             squid-common \
-            squid \
+            squid-openssl \
             squidclient && \
     rm -rf /var/run/squid.pid && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # get latest web safety and install it
-RUN curl https://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/ubuntu18/websafety-${DDWS_VER}_amd64.deb -o websafety-core${DDWS_VER}_amd64.deb && \
-    curl https://packages.diladele.com/websafety-ui/${DDWS_UI_VER}/amd64/release/ubuntu18/websafety-ui-${DDWS_UI_VER}_amd64.deb -o websafety-ui-${DDWS_UI_VER}_amd64.deb && \
+RUN curl https://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/${OSNAME}/websafety-${DDWS_VER}_amd64.deb -o websafety-core${DDWS_VER}_amd64.deb && \
+    curl https://packages.diladele.com/websafety-ui/${DDWS_UI_VER}/amd64/release/${OSNAME}/websafety-ui-${DDWS_UI_VER}_amd64.deb -o websafety-ui-${DDWS_UI_VER}_amd64.deb && \
     dpkg --install websafety-core${DDWS_VER}_amd64.deb && \
     dpkg --install websafety-ui-${DDWS_UI_VER}_amd64.deb && \
     chown -R proxy:proxy /opt/websafety && \
+    chown -R websafety:websafety /opt/websafety-ui && \
     rm -f websafety-core${DDWS_VER}_amd64.deb && \
     rm -f websafety-ui-${DDWS_UI_VER}_amd64.deb && \
     a2ensite websafety && \
@@ -68,32 +66,34 @@ RUN curl https://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/
     sudo -u websafety python3 /opt/websafety-ui/var/console/generate.py --ui && \
     chown -R websafety:websafety /opt/websafety-ui && \
     #sudo -u websafety python3 /opt/websafety-ui/var/console/utils.py --network="ubuntu18" && \
-    touch /etc/crontab && mkdir /etc/service/squid /etc/service/apache2 /etc/service/wsicap /etc/service/wsgsb /etc/service/wsytg /opt/websafety/var/reports /etc/service/wssync
+    touch /etc/crontab && mkdir -p /opt/websafety/var/reports
+
+RUN echo "websafety ALL=(root) NOPASSWD: /opt/websafety/bin/reload.sh, /opt/websafety/bin/restart.sh, /opt/websafety/bin/cluster.sh, /opt/websafety-ui/bin/certmgr.py, /opt/websafety-ui/bin/cachemgr.py, /usr/bin/tail, /opt/websafety-ui/bin/timezone.py, /opt/websafety-ui/bin/hostname.py, /opt/websafety-ui/bin/resolve.py, /opt/websafety-ui/bin/netmgr.py, /opt/websafety-ui/bin/fsmgr.py, /opt/websafety-ui/bin/cronmgr.py, /opt/websafety-ui/bin/logrotatemgr.py, /opt/websafety-ui/bin/confmgr.py" >> /etc/sudoers
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf
 COPY contents/websafety_update /etc/cron.daily
-COPY contents/wsicap /etc/service/wsicap/run
-COPY contents/wsgsb /etc/service/wsgsb/run
-COPY contents/wsytg /etc/service/wsytg/run
-COPY contents/wssync /etc/service/wssync/run
+COPY contents/websafety_license /etc/cron.daily
+COPY contents/wsicapd /etc/service/wsicapd/run
+COPY contents/wsgsbd /etc/service/wsgsbd/run
+COPY contents/wsytgd /etc/service/wsytgd/run
+COPY contents/wssyncd /etc/service/wssyncd/run
+COPY contents/wsmond /etc/service/wsmond/run
 COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
 COPY contents/reload.sh /opt/websafety/bin/reload.sh
 COPY contents/restart.sh /opt/websafety/bin/restart.sh
 COPY contents/license.pem /opt/websafety/etc/license.pem
-COPY contents/firstrun.sh /usr/local/bin/firstrun.sh
 
 # reset owner of installation path
-RUN chown -R websafety:websafety /opt/websafety && \
-    chmod +x /opt/websafety/bin/* && \
-    chmod +x /usr/local/bin/firstrun.sh && \
+RUN chmod +x /opt/websafety/bin/* && \
     chmod +x /etc/cron.daily/websafety_update && \
     chmod u+s /opt/websafety/bin/* && \
     chmod +x /etc/service/squid/run \
-             /etc/service/wsicap/run \
-             /etc/service/wsgsb/run \
-             /etc/service/wsytg/run \
+             /etc/service/wsicapd/run \
+             /etc/service/wsgsbd/run \
+             /etc/service/wsytgd/run \
+             /etc/service/wsmond/run \
              /etc/service/apache2/run
 
 # assign volumes

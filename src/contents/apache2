@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
+wsicapstatus=`sv status wsicapd |cut -d ' ' -f 1`
 squidstatus=`sv status squid |cut -d ' ' -f 1`
 
 if [[ "$wsicapstatus" != "run:" ]]

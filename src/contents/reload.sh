@@ -8,10 +8,16 @@
 #
 
 echo "Reloading Web Safety ICAP Daemon..."
-sv hup wsicap
+sv hup wsicapd
 
 echo "Reloading Web Safety GSB Daemon..."
-sv hup wsgsb || true
+sv hup wsgsbd
+
+echo "Reloading Web Safety Youtube guard Daemon..."
+sv hup wsytgd
+
+echo "Reloading Web Safety Monitoring Daemon..."
+sv hup wsmond
 
 echo "Reloading Squid Proxy Server..."
 sv hup squid

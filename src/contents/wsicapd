@@ -1,5 +1,8 @@
 #!/bin/bash
 
+chmod 755 ./supervise
+chown websafety ./supervise/ok ./supervise/control ./supervise/statusmod ./
+
 guardfile=/tmp/regenerated
 
 if [[ -f "${guardfile}" ]]; then
@@ -9,7 +12,7 @@ else
 fi
 
 if ! [[ -z "$TIME_ZONE" ]]; then
-    sed -i "s:TIME_ZONE = '.*':TIME_ZONE='$TIME_ZONE':" /opt/websafety-ui/var/console/console/settings.py
+    sed -i "s:TIME_ZONE = \".*\":TIME_ZONE=\"$TIME_ZONE\":" /opt/websafety-ui/var/console/console/settings.py
 fi
 
 cd /opt/websafety/var/spool
