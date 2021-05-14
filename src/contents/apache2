@@ -1,13 +1,9 @@
 #!/bin/bash
 
-wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
-wsmgrstatus=`sv status wsmgr |cut -d ' ' -f 1`
+wsicapstatus=`sv status wsicapd |cut -d ' ' -f 1`
 squidstatus=`sv status squid |cut -d ' ' -f 1`
 
 if [[ "$wsicapstatus" != "run:" ]]
-then exit 1
-fi
-if [[ "$wsmgrstatus" != "run:" ]]
 then exit 1
 fi
 if [[ "$squidstatus" != "run:" ]]

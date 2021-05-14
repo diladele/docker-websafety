@@ -1,14 +1,33 @@
 #!/bin/bash
 
-# let websafety and wsmgr start before squid - exit script until they're running
-wsicapstatus=`sv status wsicap |cut -d ' ' -f 1`
-wsmgrstatus=`sv status wsmgr |cut -d ' ' -f 1`
+chmod 755 ./supervise
+chown websafety ./supervise/ok ./supervise/control ./supervise/statusmod ./
+
+# let websafety start before squid - exit script until they're running
+wsicapstatus=`sv status wsicapd |cut -d ' ' -f 1`
 
 if [[ "$wsicapstatus" != "run:" ]]
 then exit 1
 fi
-if [[ "$wsmgrstatus" != "run:" ]]
-then exit 1
+
+guardfile=/tmp/squidguard
+
+if [[ -f "${guardfile}" ]]; then
+  echo "${guardfile} exists, no need to regenerate ceritifcate storage"
+else
+  # re-initialize storage for mimicked ssl certificates
+  SSL_DB=/var/spool/squid_ssldb
+  if [ -d $SSL_DB ]; then
+	  rm -Rf $SSL_DB
+  fi
+  /usr/lib/squid/security_file_certgen -c -s $SSL_DB -M 4MB
+  if [ $? -ne 0 ]; then
+    echo "Error $? while initializing SSL certificate storage, exiting..."
+    exit 1
+  fi
+
+  # relabel folder
+  chown -R proxy:proxy $SSL_DB
 fi
 
 SQUID_NAME=squid

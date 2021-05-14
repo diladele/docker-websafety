@@ -1,0 +1,33 @@
+#!/bin/bash
+LOGFILE="/opt/websafety/var/log/cron_license.log"
+
+if [ -f "$LOGFILE" ]; then
+    echo "" >"$LOGFILE"
+fi
+
+# create log file
+touch "$LOGFILE"
+
+# run the wslicd daemon
+/opt/websafety/bin/wslicd --activate=azure > "$LOGFILE" 2>&1
+
+# see what was the result
+ret=$?
+if [ $ret -eq 0 ]; then
+
+	# activation was successful, reload the wsicap daemon
+	bash /opt/websafety/bin/reload.sh
+fi
+
+if [ $ret -eq 2 ]; then
+	# activation was successful, the license key did not change, do nothing
+	echo "license key did not change"
+fi
+
+if [ $ret -eq 1 ]; then
+	# activation failed, admin will see it in the log, do nothing
+	echo "activation failed"
+fi
+
+# just in case, reset the default owner
+chown websafety:websafety $LOGFILE
