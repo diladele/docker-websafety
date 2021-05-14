@@ -9,6 +9,10 @@ It supports all major Linux distributions (Ubuntu, Debian, RedHat). With the lat
 
 ***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_stable/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from previous images.***
 
+# Running the image from Azure Containers
+
+To deploy Web Safety 7.6 as a container from Azure Marketplace, visit https://azuremarketplace.microsoft.com/en-us/marketplace/apps/diladele.websafety-container?tab=Overview.
+
 # Running the image from Docker Hub
 
 Please install docker from www.docker.com.
