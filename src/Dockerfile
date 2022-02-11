@@ -8,8 +8,8 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.0.0.837A
-ENV DDWS_UI_VER 8.0.0.4738
+ENV DDWS_VER 8.0.0.0C43
+ENV DDWS_UI_VER 8.0.0.8D9A
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
@@ -65,7 +65,6 @@ RUN curl https://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/
     sudo -u proxy python3 /opt/websafety-ui/var/console/generate.py --core && \
     sudo -u websafety python3 /opt/websafety-ui/var/console/generate.py --ui && \
     chown -R websafety:websafety /opt/websafety-ui && \
-    #sudo -u websafety python3 /opt/websafety-ui/var/console/utils.py --network="ubuntu18" && \
     touch /etc/crontab && mkdir -p /opt/websafety/var/reports
 
 RUN echo "websafety ALL=(root) NOPASSWD: /opt/websafety/bin/reload.sh, /opt/websafety/bin/restart.sh, /opt/websafety/bin/cluster.sh, /opt/websafety-ui/bin/certmgr.py, /opt/websafety-ui/bin/cachemgr.py, /usr/bin/tail, /opt/websafety-ui/bin/timezone.py, /opt/websafety-ui/bin/hostname.py, /opt/websafety-ui/bin/resolve.py, /opt/websafety-ui/bin/netmgr.py, /opt/websafety-ui/bin/fsmgr.py, /opt/websafety-ui/bin/cronmgr.py, /opt/websafety-ui/bin/logrotatemgr.py, /opt/websafety-ui/bin/confmgr.py" >> /etc/sudoers
