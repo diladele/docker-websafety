@@ -3,4 +3,5 @@
 chmod 755 ./supervise
 chown websafety ./supervise/ok ./supervise/control ./supervise/statusmod ./
 
-exec /opt/websafety/bin/wsytgd
+exec /opt/websafety/bin/ytguard --product=websafety --config=/opt/websafety/etc/safety/youtube.json
+

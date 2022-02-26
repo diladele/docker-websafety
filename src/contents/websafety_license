@@ -9,7 +9,7 @@ fi
 touch "$LOGFILE"
 
 # run the wslicd daemon
-/opt/websafety/bin/wslicd --activate=azure > "$LOGFILE" 2>&1
+/opt/websafety/bin/licenser --deploy=azure --product=websafety --type=payg > "$LOGFILE" 2>&1
 
 # see what was the result
 ret=$?
@@ -19,12 +19,7 @@ if [ $ret -eq 0 ]; then
 	bash /opt/websafety/bin/reload.sh
 fi
 
-if [ $ret -eq 2 ]; then
-	# activation was successful, the license key did not change, do nothing
-	echo "license key did not change"
-fi
-
-if [ $ret -eq 1 ]; then
+if [ $ret -ne 0 ]; then
 	# activation failed, admin will see it in the log, do nothing
 	echo "activation failed"
 fi
