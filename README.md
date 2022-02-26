@@ -74,6 +74,15 @@ Start again with
 
     docker start websafety
 
+# Push to DockerHub
+
+```
+    docker login --username=blabla
+    docker push diladele/websafety:8.0
+    
+    docker tag diladele/websafety:8.0 diladele/websafety:latest
+    docker push diladele/websafety:latest
+```
 
 # Licensing
 
