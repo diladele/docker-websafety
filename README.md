@@ -1,7 +1,7 @@
-Web Safety 8.0 in Docker with Squid 5.2
+Web Safety 8.1 in Docker with Squid 5.5
 =======================================
 
-This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 5.2).
+This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 5.5).
 
 Web Safety for Squid Proxy is the ICAP web filtering server that provides rich content and web filtering functionality to sanitize Internet traffic passing into an internal home/enterprise network. It may be used to block illegal or potentially malicious file downloads, remove annoying advertisements, prevent access to various categories of web sites and block resources with explicit content. The application is easily deployed and managed, requires minimal external dependencies, very robust and runs with the excellent performance. 
 
@@ -11,7 +11,7 @@ It supports all major Linux distributions (Ubuntu, Debian, RedHat). With the lat
 
 # Running the image from Azure Containers
 
-To deploy Web Safety 8.0 as a container from Azure Marketplace, visit https://azuremarketplace.microsoft.com/en-us/marketplace/apps/diladele.websafety-container?tab=Overview.
+To deploy Web Safety 8.1 as a container from Azure Marketplace, visit https://azuremarketplace.microsoft.com/en-us/marketplace/apps/diladele.websafety-container?tab=Overview.
 
 # Running the image from Docker Hub
 
@@ -21,7 +21,7 @@ If you had the image already deployed please see how you can [clean before updat
 
 In order to run the product please execute the following commands:
 ```
-    docker run --rm -dt --name websafety --dns=8.8.8.8 -p 8000:80 -p 3128:3128 -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.0
+    docker run --rm -dt --name websafety --dns=8.8.8.8 -p 8000:80 -p 3128:3128 -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.1
 ```
 After executing these commands, you can connect to the Admin Console typing [http://localhost:8000](http://localhost:8000) in your browser.
 
@@ -78,9 +78,9 @@ Start again with
 
 ```
     docker login --username=blabla
-    docker push diladele/websafety:8.0
+    docker push diladele/websafety:8.1
     
-    docker tag diladele/websafety:8.0 diladele/websafety:latest
+    docker tag diladele/websafety:8.1 diladele/websafety:latest
     docker push diladele/websafety:latest
 ```
 

@@ -8,8 +8,8 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.0.0.0C43
-ENV DDWS_UI_VER 8.0.0.072C
+ENV DDWS_VER 8.1.0.8A10
+ENV DDWS_UI_VER 8.1.0.442D
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
@@ -41,7 +41,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     pip3 install python-ldap
 
 
-RUN echo "deb https://squid52.diladele.com/ubuntu/ focal main" > /etc/apt/sources.list.d/squid52.diladele.com.list && \
+RUN echo "deb https://squid55.diladele.com/ubuntu/ focal main" > /etc/apt/sources.list.d/squid55.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
             libecap3 libecap3-dev \
             squid-common \
