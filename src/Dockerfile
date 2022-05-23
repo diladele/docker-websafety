@@ -8,8 +8,8 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.0.0.0C43
-ENV DDWS_UI_VER 8.0.0.072C
+ENV DDWS_VER 8.1.0.8A10
+ENV DDWS_UI_VER 8.1.0.442D
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
@@ -21,7 +21,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     sudo curl gnupg libsasl2-dev libldap2-dev libssl-dev g++ \
     krb5-user \
     sqlite && \
-    a2dissite 000-default && \
+    a2dissite 000-default && a2enmod ssl && \
     curl https://packages.diladele.com/diladele_pub.asc -s -o diladele_pub.asc && \
     APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add diladele_pub.asc && rm diladele_pub.asc && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
@@ -36,12 +36,12 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
          psutil \
          tld \
          jinja2 \
-         pyOpenSSL && \
+         msal pyOpenSSL && \
     pip3 uninstall ldap ldap3 python-ldap || true && \
     pip3 install python-ldap
 
 
-RUN echo "deb https://squid52.diladele.com/ubuntu/ focal main" > /etc/apt/sources.list.d/squid52.diladele.com.list && \
+RUN echo "deb https://squid55.diladele.com/ubuntu/ focal main" > /etc/apt/sources.list.d/squid55.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
             libecap3 libecap3-dev \
             squid-common \
