@@ -9,10 +9,6 @@ It supports all major Linux distributions (Ubuntu, Debian, RedHat). With the lat
 
 ***Check [the upgrade documentation](https://docs.diladele.com/administrator_guide_stable/upgrade/index.html) for more informaion about the changes and hints at a potential upgrade path from previous images.***
 
-# Running the image from Azure Containers
-
-To deploy Web Safety 8.1 as a container from Azure Marketplace, visit https://azuremarketplace.microsoft.com/en-us/marketplace/apps/diladele.websafety-container?tab=Overview.
-
 # Running the image from Docker Hub
 
 Please install docker from www.docker.com.
@@ -21,9 +17,9 @@ If you had the image already deployed please see how you can [clean before updat
 
 In order to run the product please execute the following commands:
 ```
-    docker run --rm -dt --name websafety --dns=8.8.8.8 -p 8000:80 -p 3128:3128 -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.1
+    docker run --rm -dt --name websafety --dns=8.8.8.8 -p 8000:80 -p 8443:443 -p 3128:3128 -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.1
 ```
-After executing these commands, you can connect to the Admin Console typing [http://localhost:8000](http://localhost:8000) in your browser.
+After executing these commands, you can connect to the Admin Console typing [https://localhost:8443](https://localhost:8443) in your browser. Note that version 8.1 now runs using HTTPS.
 
 The Squid proxy is listening on port 3128. 
 
