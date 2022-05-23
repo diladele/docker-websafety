@@ -86,7 +86,7 @@ Start again with
 
 # Licensing
 
-The docker image comes with a pre-installed license. If it expires, please request the license at support@diladele.com
+The docker image comes with a pre-installed license. If it expires, please request the license at support@diladele.com or purchase at https://www.diladele.com/licensing.html
 
 # Support
 

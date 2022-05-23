@@ -21,7 +21,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     sudo curl gnupg libsasl2-dev libldap2-dev libssl-dev g++ \
     krb5-user \
     sqlite && \
-    a2dissite 000-default && \
+    a2dissite 000-default && a2enmod ssl && \
     curl https://packages.diladele.com/diladele_pub.asc -s -o diladele_pub.asc && \
     APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add diladele_pub.asc && rm diladele_pub.asc && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
          psutil \
          tld \
          jinja2 \
-         pyOpenSSL && \
+         msal pyOpenSSL && \
     pip3 uninstall ldap ldap3 python-ldap || true && \
     pip3 install python-ldap
 
