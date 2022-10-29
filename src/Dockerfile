@@ -84,7 +84,6 @@ COPY contents/squid /etc/service/squid/run
 COPY contents/apache2 /etc/service/apache2/run
 COPY contents/reload.sh /opt/websafety/bin/reload.sh
 COPY contents/restart.sh /opt/websafety/bin/restart.sh
-COPY contents/license.pem /opt/websafety/etc/license.pem
 
 # reset owner of installation path
 RUN chmod +x /opt/websafety/bin/* && \
