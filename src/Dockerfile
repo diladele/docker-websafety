@@ -8,8 +8,8 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.2.0.0CD3
-ENV DDWS_UI_VER 8.2.0.6328
+ENV DDWS_VER 8.3.0.C11D
+ENV DDWS_UI_VER 8.3.0.D41F
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
@@ -28,7 +28,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     pip3 install --upgrade pip && \
     pip3 install wheel && \
     python3 -m pip install \
-         django==4.1 \
+         django==4.1.2 \
          pytz \
          requests \
          pandas \
@@ -41,7 +41,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     pip3 install python-ldap
 
 
-RUN echo "deb https://squid55.diladele.com/ubuntu/ focal main" > /etc/apt/sources.list.d/squid55.diladele.com.list && \
+RUN echo "deb https://squid57.diladele.com/ubuntu/ focal main" > /etc/apt/sources.list.d/squid57.diladele.com.list && \
     apt-get update && apt-get install -y --no-install-recommends \
             libecap3 libecap3-dev \
             squid-common \
@@ -65,7 +65,9 @@ RUN curl https://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/
     sudo -u proxy python3 /opt/websafety-ui/var/console/generate.py --core && \
     sudo -u websafety python3 /opt/websafety-ui/var/console/generate.py --ui && \
     chown -R websafety:websafety /opt/websafety-ui && \
-    touch /etc/crontab && mkdir -p /opt/websafety/var/reports
+    touch /etc/crontab && mkdir -p /opt/websafety/var/reports && \
+    mkdir -p /usr/share/squid/errors/templates/opt/websafety/etc/squid && \
+    ln -s /opt/websafety/etc/squid/portal.html /usr/share/squid/errors/templates/opt/websafety/etc/squid/portal.html
 
 RUN echo "websafety ALL=(root) NOPASSWD: /opt/websafety/bin/reload.sh, /opt/websafety/bin/restart.sh, /opt/websafety/bin/cluster.sh, /opt/websafety-ui/bin/certmgr.py, /opt/websafety-ui/bin/cachemgr.py, /usr/bin/tail, /opt/websafety-ui/bin/timezone.py, /opt/websafety-ui/bin/hostname.py, /opt/websafety-ui/bin/resolve.py, /opt/websafety-ui/bin/netmgr.py, /opt/websafety-ui/bin/fsmgr.py, /opt/websafety-ui/bin/cronmgr.py, /opt/websafety-ui/bin/logrotatemgr.py, /opt/websafety-ui/bin/confmgr.py" >> /etc/sudoers
 
