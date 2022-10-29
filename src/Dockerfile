@@ -8,8 +8,8 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.1.0.8A10
-ENV DDWS_UI_VER 8.1.0.442D
+ENV DDWS_VER 8.2.0.0CD3
+ENV DDWS_UI_VER 8.2.0.6328
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
@@ -28,7 +28,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     pip3 install --upgrade pip && \
     pip3 install wheel && \
     python3 -m pip install \
-         django==3.1.7 \
+         django==4.1 \
          pytz \
          requests \
          pandas \
