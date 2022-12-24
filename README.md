@@ -1,7 +1,7 @@
-Web Safety 8.2 in Docker with Squid 5.5
+Web Safety 8.3 in Docker with Squid 5.7
 =======================================
 
-This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 5.5).
+This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 5.7).
 
 Web Safety for Squid Proxy is the ICAP web filtering server that provides rich content and web filtering functionality to sanitize Internet traffic passing into an internal home/enterprise network. It may be used to block illegal or potentially malicious file downloads, remove annoying advertisements, prevent access to various categories of web sites and block resources with explicit content. The application is easily deployed and managed, requires minimal external dependencies, very robust and runs with the excellent performance. 
 
@@ -17,9 +17,11 @@ If you had the image already deployed please see how you can [clean before updat
 
 In order to run the product please execute the following commands:
 ```
-    docker run --rm -dt --name websafety --dns=8.8.8.8 -p 8000:80 -p 8443:443 -p 3128:3128 -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.2
+    docker run --rm -dt --name websafety --dns=8.8.8.8 \
+        -p 8000:80 -p 8443:443 -p 3128:3128 \
+        -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.3
 ```
-After executing these commands, you can connect to the Admin Console typing [https://localhost:8443](https://localhost:8443) in your browser. Note that version 8.2 now runs using HTTPS.
+After executing these commands, you can connect to the Admin Console typing [https://localhost:8443](https://localhost:8443) in your browser. Note that version 8.3 now runs using HTTPS.
 
 The Squid proxy is listening on port 3128. 
 
@@ -74,9 +76,9 @@ Start again with
 
 ```
     docker login --username=blabla
-    docker push diladele/websafety:8.2
+    docker push diladele/websafety:8.3
     
-    docker tag diladele/websafety:8.2 diladele/websafety:latest
+    docker tag diladele/websafety:8.3 diladele/websafety:latest
     docker push diladele/websafety:latest
 ```
 

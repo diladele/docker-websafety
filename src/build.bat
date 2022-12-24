@@ -1,3 +1,3 @@
 REM rebuild our project
-docker rmi -f diladele/websafety:8.2
-docker build --force-rm --no-cache --rm=true -t diladele/websafety:8.2 .
+docker rmi -f diladele/websafety:8.3
+docker build --force-rm --no-cache --rm=true -t diladele/websafety:8.3 .
