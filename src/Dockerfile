@@ -8,8 +8,8 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.3.0.0728
-ENV DDWS_UI_VER 8.3.0.6942
+ENV DDWS_VER 8.4.0.DCC9
+ENV DDWS_UI_VER 8.4.0.27C9
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
