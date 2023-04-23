@@ -8,8 +8,8 @@ MAINTAINER support@diladele.com
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.3.0.0728
-ENV DDWS_UI_VER 8.3.0.6942
+ENV DDWS_VER 8.5.0.C85E
+ENV DDWS_UI_VER 8.5.0.3ECC
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
          psutil \
          tld \
          jinja2 \
-         msal pyOpenSSL && \
+         msal pyOpenSSL cryptography google-auth google-auth-oauthlib && \
     pip3 uninstall ldap ldap3 python-ldap || true && \
     pip3 install python-ldap
 
