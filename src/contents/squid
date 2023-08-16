@@ -16,7 +16,7 @@ if [[ -f "${guardfile}" ]]; then
   echo "${guardfile} exists, no need to regenerate ceritifcate storage"
 else
   # re-initialize storage for mimicked ssl certificates
-  SSL_DB=/var/spool/squid_ssldb
+  SSL_DB=/var/spool/squid/ssldb
   if [ -d $SSL_DB ]; then
 	  rm -Rf $SSL_DB
   fi
