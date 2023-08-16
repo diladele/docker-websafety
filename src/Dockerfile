@@ -1,7 +1,7 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:master-amd64
+FROM phusion/baseimage:focal-1.2.0
 
 MAINTAINER support@diladele.com
 
