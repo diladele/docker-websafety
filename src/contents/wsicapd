@@ -23,4 +23,4 @@ mv categories categories.a && mv categories.a categories
 mv categories_custom categories_custom.a && mv categories_custom.a categories_custom
 mv privacy privacy.a && mv privacy.a privacy
 
-exec /opt/websafety/bin/wsicapd
+exec /opt/websafety/bin/wsicapd >/var/log/wsicapd.log
