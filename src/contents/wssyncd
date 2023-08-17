@@ -3,4 +3,4 @@
 chmod 755 ./supervise
 chown websafety ./supervise/ok ./supervise/control ./supervise/statusmod ./
 
-exec /opt/websafety/bin/wssyncd >/var/log/wssyncd.log
+exec /opt/websafety/bin/wssyncd >/var/log/wssyncd.log 2>&1
