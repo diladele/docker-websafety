@@ -3,4 +3,4 @@
 chmod 755 ./supervise
 chown websafety ./supervise/ok ./supervise/control ./supervise/statusmod ./
 
-exec sudo -u websafety python3 /opt/websafety-ui/bin/realtime.py
+exec sudo -u websafety python3 /opt/websafety-ui/bin/realtime.py >/var/log/wsmond.log 2>&1

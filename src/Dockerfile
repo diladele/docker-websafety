@@ -1,22 +1,22 @@
 #
 # Docker file for running Diladele Web Safety in one container
 #
-FROM phusion/baseimage:master-amd64
+FROM phusion/baseimage:focal-1.2.0
 
 MAINTAINER support@diladele.com
 
 # set configuration variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
-ENV DDWS_VER 8.5.0.C85E
-ENV DDWS_UI_VER 8.5.0.3ECC
+ENV DDWS_VER 8.7.0.F9E3
+ENV DDWS_UI_VER 8.7.0.0A95
 ENV OSNAME "ubuntu20"
 ENV WEBSAFETY_IN_DOCKER "True"
 
 # install python libs and apache with modwsgi
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     apt-get install -y --no-install-recommends apt-utils \
-    apache2 libapache2-mod-wsgi-py3 iproute2 \
+    apache2 libapache2-mod-wsgi-py3 iproute2 patch \
     python3-pip python3-dev python3-setuptools \
     sudo curl gnupg libsasl2-dev libldap2-dev libssl-dev g++ \
     krb5-user \
@@ -28,10 +28,10 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
     pip3 install --upgrade pip && \
     pip3 install wheel && \
     python3 -m pip install \
-         django==4.1.2 \
+         django==4.2.4 \
          pytz \
          requests \
-         pandas \
+         pandas==2.0.3 \
          PyYAML \
          psutil \
          tld \
@@ -69,7 +69,15 @@ RUN curl https://packages.diladele.com/websafety-core/${DDWS_VER}/amd64/release/
     mkdir -p /usr/share/squid/errors/templates/opt/websafety/etc/squid && \
     ln -s /opt/websafety/etc/squid/portal.html /usr/share/squid/errors/templates/opt/websafety/etc/squid/portal.html
 
-RUN echo "websafety ALL=(root) NOPASSWD: /opt/websafety/bin/reload.sh, /opt/websafety/bin/restart.sh, /opt/websafety/bin/cluster.sh, /opt/websafety-ui/bin/certmgr.py, /opt/websafety-ui/bin/cachemgr.py, /usr/bin/tail, /opt/websafety-ui/bin/timezone.py, /opt/websafety-ui/bin/hostname.py, /opt/websafety-ui/bin/resolve.py, /opt/websafety-ui/bin/netmgr.py, /opt/websafety-ui/bin/fsmgr.py, /opt/websafety-ui/bin/cronmgr.py, /opt/websafety-ui/bin/logrotatemgr.py, /opt/websafety-ui/bin/confmgr.py" >> /etc/sudoers
+RUN echo "websafety ALL=(root) NOPASSWD: /opt/websafety/bin/reload.sh, /opt/websafety/bin/restart.sh, /opt/websafety/bin/cluster.sh, /opt/websafety-ui/bin/certmgr.py, /opt/websafety-ui/bin/cachemgr.py, /usr/bin/tail, /opt/websafety-ui/bin/timezone.py, /opt/websafety-ui/bin/hostname.py, /opt/websafety-ui/bin/netmgr.py, /opt/websafety-ui/bin/fsmgr.py, /opt/websafety-ui/bin/cronmgr.py, /opt/websafety-ui/bin/logrotatemgr.py, /opt/websafety-ui/bin/confmgr.py" >> /etc/sudoers
+
+# patch the venv introduced in ws 8.6+
+COPY contents/websafety.conf.patch /etc/apache2/sites-available/websafety.conf.patch
+COPY contents/reporter.sh.patch /opt/websafety-ui/bin/reporter_py/reporter.sh.patch
+COPY contents/models.py.patch /opt/websafety-ui/var/console/node/models.py.patch
+RUN patch /etc/apache2/sites-available/websafety.conf < /etc/apache2/sites-available/websafety.conf.patch
+RUN patch /opt/websafety-ui/bin/reporter_py/reporter.sh < /opt/websafety-ui/bin/reporter_py/reporter.sh.patch
+RUN patch /opt/websafety-ui/var/console/node/models.py < /opt/websafety-ui/var/console/node/models.py.patch
 
 # copy required files
 COPY contents/squid.conf /etc/squid/squid.conf

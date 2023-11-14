@@ -3,4 +3,4 @@
 chmod 755 ./supervise
 chown websafety ./supervise/ok ./supervise/control ./supervise/statusmod ./
 
-exec /opt/websafety/bin/gsbd --product=websafety --config=/opt/websafety/etc/antivirus/safe_browsing.json
+exec /opt/websafety/bin/gsbd --product=websafety --config=/opt/websafety/etc/antivirus/safe_browsing.json >/var/log/wsgsbd.log 2>&1
