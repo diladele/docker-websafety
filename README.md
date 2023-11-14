@@ -1,4 +1,4 @@
-Web Safety 8.6 in Docker with Squid 5.7
+Web Safety 8.7 in Docker with Squid 5.7
 =======================================
 
 This project provides a full Docker image for Web Safety, including Squid proxy rebuilt to enable SSL decryption and HTTPS filtering (version 5.7).
@@ -19,7 +19,7 @@ In order to run the product please execute the following commands:
 ```
     docker run --rm -dt --name websafety --dns=8.8.8.8 \
         -p 8000:80 -p 8443:443 -p 3128:3128 \
-        -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.6
+        -e TIME_ZONE="Europe/Berlin" diladele/websafety:8.7
 ```
 After executing these commands, you can connect to the Admin Console typing [https://localhost:8443](https://localhost:8443) in your browser. Note that version 8.6 now runs using HTTPS.
 
@@ -76,9 +76,9 @@ Start again with
 
 ```
     docker login --username=blabla
-    docker push diladele/websafety:8.6
+    docker push diladele/websafety:8.7
     
-    docker tag diladele/websafety:8.6 diladele/websafety:latest
+    docker tag diladele/websafety:8.7 diladele/websafety:latest
     docker push diladele/websafety:latest
 ```
 
